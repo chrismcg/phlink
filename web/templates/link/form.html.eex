@@ -16,11 +16,6 @@
   </div>
 
   <div class="form-group">
-    <label>Shortcode</label>
-    <%= text_input f, :shortcode, class: "form-control" %>
-  </div>
-
-  <div class="form-group">
-    <%= submit "Submit", class: "btn btn-primary" %>
+    <%= submit "Shorten!", class: "btn btn-primary btn-large" %>
   </div>
 <% end %>

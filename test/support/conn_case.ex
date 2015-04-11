@@ -30,6 +30,9 @@ defmodule Phlink.ConnCase do
 
       # The default endpoint for testing
       @endpoint Phlink.Endpoint
+
+      # Model aliases
+      alias Phlink.Link
     end
   end
 

@@ -8,19 +8,11 @@ defmodule Phlink.Router do
     plug :protect_from_forgery
   end
 
-  pipeline :api do
-    plug :accepts, ["json"]
-  end
-
   scope "/", Phlink do
     pipe_through :browser # Use the default browser stack
 
-    get "/", PageController, :index
-    resources "/links", LinkController
+    get "/", LinkController, :new
+    get "/shorten/:id", LinkController, :show
+    post "/shorten", LinkController, :create
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", Phlink do
-  #   pipe_through :api
-  # end
 end

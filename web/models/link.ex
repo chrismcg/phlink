@@ -8,7 +8,7 @@ defmodule Phlink.Link do
     timestamps
   end
 
-  @required_fields ~w(url shortcode)
+  @required_fields ~w(url)
   @optional_fields ~w()
 
   @doc """

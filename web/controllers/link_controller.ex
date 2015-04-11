@@ -3,13 +3,8 @@ defmodule Phlink.LinkController do
 
   alias Phlink.Link
 
-  plug :scrub_params, "link" when action in [:create, :update]
+  plug :scrub_params, "link" when action in [:create]
   plug :action
-
-  def index(conn, _params) do
-    links = Repo.all(Link)
-    render conn, "index.html", links: links
-  end
 
   def new(conn, _params) do
     changeset = Link.changeset(%Link{})
@@ -20,11 +15,10 @@ defmodule Phlink.LinkController do
     changeset = Link.changeset(%Link{}, link_params)
 
     if changeset.valid? do
-      Repo.insert(changeset)
+      link = Repo.insert(changeset)
 
       conn
-      |> put_flash(:info, "Link created successfully.")
-      |> redirect(to: link_path(conn, :index))
+      |> redirect(to: link_path(conn, :show, link.id))
     else
       render conn, "new.html", changeset: changeset
     end
@@ -33,35 +27,5 @@ defmodule Phlink.LinkController do
   def show(conn, %{"id" => id}) do
     link = Repo.get(Link, id)
     render conn, "show.html", link: link
-  end
-
-  def edit(conn, %{"id" => id}) do
-    link = Repo.get(Link, id)
-    changeset = Link.changeset(link)
-    render conn, "edit.html", link: link, changeset: changeset
-  end
-
-  def update(conn, %{"id" => id, "link" => link_params}) do
-    link = Repo.get(Link, id)
-    changeset = Link.changeset(link, link_params)
-
-    if changeset.valid? do
-      Repo.update(changeset)
-
-      conn
-      |> put_flash(:info, "Link updated successfully.")
-      |> redirect(to: link_path(conn, :index))
-    else
-      render conn, "edit.html", link: link, changeset: changeset
-    end
-  end
-
-  def delete(conn, %{"id" => id}) do
-    link = Repo.get(Link, id)
-    Repo.delete(link)
-
-    conn
-    |> put_flash(:info, "Link deleted successfully.")
-    |> redirect(to: link_path(conn, :index))
   end
 end

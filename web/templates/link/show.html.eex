@@ -4,14 +4,12 @@
 
   <li>
     <strong>Url:</strong>
-    <%= @link.url %>
+    <a href="<%= @link.url %>"><<%= @link.url %>/a>
   </li>
 
   <li>
     <strong>Shortcode:</strong>
-    <%= @link.shortcode %>
+    <a href="http://phl.ink/<%= @link.shortcode %>">http://phl.ink/<<%= @link.shortcode %>/a>
   </li>
 
 </ul>
-
-<%= link "Back", to: link_path(@conn, :index) %>
