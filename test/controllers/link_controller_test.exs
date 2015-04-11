@@ -7,10 +7,15 @@ defmodule Phlink.LinkControllerTest do
   end
 
   test "POST /shorten creates a shortened url and redirects" do
+    url = "http://example.com"
+    expected_shortcode = UUID.uuid5(:url, url, :hex)
     assert link_count == 0
-    conn = post conn(), "/shorten", %{"link": %{"url": "http://test.com"}}
+    conn = post conn(), "/shorten", %{"link": %{"url": url}}
     assert link_count == 1
+    link = Repo.one!(from l in Link, select: l)
+    assert link.shortcode == expected_shortcode
     assert conn.status == 302
+    assert Enum.any?(conn.resp_headers, &(&1 == {"Location", "/shorten/#{link.id}"}))
   end
 
   test "GET /shorten/:id displays link and short link" do
@@ -24,6 +29,7 @@ defmodule Phlink.LinkControllerTest do
     link = Repo.insert(%Link{url: "http://example.com", shortcode: "abc"})
     conn = get conn(), "/abc"
     assert conn.status == 301
+    assert Enum.any?(conn.resp_headers, &(&1 == {"Location", "http://phl.ink/#{link.shortcode}"}))
   end
 
   test "GET /:shortcode 404s if shortcode not present" do

@@ -18,7 +18,12 @@ defmodule Phlink.Link do
   with no validation performed.
   """
   def changeset(model, params \\ nil) do
-    model
-    |> cast(params, @required_fields, @optional_fields)
+    changeset = cast(model, params, @required_fields, @optional_fields)
+    case get_field(changeset, :url) do
+      nil -> changeset
+      url ->
+        shortcode = UUID.uuid5(:url, url, :hex)
+        change(changeset, %{shortcode: shortcode})
+    end
   end
 end

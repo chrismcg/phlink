@@ -28,10 +28,13 @@ defmodule Phlink.Mixfile do
   #
   # Type `mix help deps` for examples and options
   defp deps do
-    [{:phoenix, "~> 0.11"},
+    [
+      {:phoenix, "~> 0.11"},
      {:phoenix_ecto, "~> 0.3"},
      {:postgrex, ">= 0.0.0"},
      {:phoenix_live_reload, "~> 0.3"},
-     {:cowboy, "~> 1.0"}]
+     {:cowboy, "~> 1.0"},
+     { :uuid, "~> 1.0" }
+   ]
   end
 end

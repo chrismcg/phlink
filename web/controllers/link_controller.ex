@@ -35,7 +35,7 @@ defmodule Phlink.LinkController do
       link ->
         conn
         |> put_status(:moved_permanently)
-        |> redirect(external: link.url)
+        |> redirect(external: "http://phl.ink/#{link.shortcode}")
     end
   end
 end
