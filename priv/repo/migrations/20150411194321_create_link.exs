@@ -8,5 +8,7 @@ defmodule Phlink.Repo.Migrations.CreateLink do
 
       timestamps
     end
+
+    create index(:links, [:shortcode], unique: true)
   end
 end
