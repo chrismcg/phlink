@@ -4,12 +4,12 @@
 
   <li>
     <strong>Url:</strong>
-    <a href="<%= @link.url %>"><<%= @link.url %>/a>
+    <a href="<%= @link.url %>"><%= @link.url %></a>
   </li>
 
   <li>
     <strong>Shortcode:</strong>
-    <a href="http://phl.ink/<%= @link.shortcode %>">http://phl.ink/<<%= @link.shortcode %>/a>
+    <a href="http://phl.ink/<%= @link.shortcode %>">http://phl.ink/<%= @link.shortcode %></a>
   </li>
 
 </ul>
