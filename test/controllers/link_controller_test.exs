@@ -20,6 +20,17 @@ defmodule Phlink.LinkControllerTest do
     assert conn.resp_body =~ ~r{<a.*?href="http://phl.ink/abc"}
   end
 
+  test "GET /:shortcode redirects to url matching shortcode" do
+    link = Repo.insert(%Link{url: "http://example.com", shortcode: "abc"})
+    conn = get conn(), "/abc"
+    assert conn.status == 301
+  end
+
+  test "GET /:shortcode 404s if shortcode not present" do
+    conn = get conn(), "/notthere"
+    assert conn.status == 404
+  end
+
   def link_count do
     %{rows: [{count}]} = Ecto.Adapters.SQL.query Repo, "SELECT COUNT(*) FROM links", []
     count

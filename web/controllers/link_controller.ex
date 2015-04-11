@@ -28,4 +28,14 @@ defmodule Phlink.LinkController do
     link = Repo.get(Link, id)
     render conn, "show.html", link: link
   end
+
+  def unshorten(conn, %{"shortcode" => shortcode}) do
+    case Repo.one(from l in Link, where: l.shortcode == ^shortcode) do
+      nil -> conn |> put_status(:not_found)
+      link ->
+        conn
+        |> put_status(:moved_permanently)
+        |> redirect(external: link.url)
+    end
+  end
 end

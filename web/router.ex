@@ -14,5 +14,6 @@ defmodule Phlink.Router do
     get "/", LinkController, :new
     get "/shorten/:id", LinkController, :show
     post "/shorten", LinkController, :create
+    get "/:shortcode", LinkController, :unshorten
   end
 end
