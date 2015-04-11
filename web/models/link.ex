@@ -19,11 +19,17 @@ defmodule Phlink.Link do
   """
   def changeset(model, params \\ nil) do
     changeset = cast(model, params, @required_fields, @optional_fields)
-    case get_field(changeset, :url) do
+    changeset = case get_field(changeset, :url) do
       nil -> changeset
       url ->
         shortcode = UUID.uuid5(:url, url, :hex)
         change(changeset, %{shortcode: shortcode})
+    end
+    validate_change changeset, :url, fn(:url, url) ->
+      case :http_uri.parse(String.to_char_list(url)) do
+        { :ok, _ } -> []
+        { :error, _ } -> [{:url, "is invalid"}]
+      end
     end
   end
 end

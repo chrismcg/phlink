@@ -18,6 +18,24 @@ defmodule Phlink.LinkControllerTest do
     assert Enum.any?(conn.resp_headers, &(&1 == {"Location", "/shorten/#{link.id}"}))
   end
 
+  test "POST /shorten errors if the url is blank" do
+    url = ""
+    assert link_count == 0
+    conn = post conn(), "/shorten", %{"link": %{"url": url}}
+    assert link_count == 0
+    assert conn.status == 200
+    assert conn.resp_body =~ "Url can&#39;t be blank"
+  end
+
+  test "POST /shorten errors if the url isn't a valid url" do
+    url = "not a url"
+    assert link_count == 0
+    conn = post conn(), "/shorten", %{"link": %{"url": url}}
+    assert link_count == 0
+    assert conn.status == 200
+    assert conn.resp_body =~ "Url is invalid"
+  end
+
   test "GET /shorten/:id displays link and short link" do
     link = Repo.insert(%Link{url: "http://example.com", shortcode: "abc"})
     conn = get conn(), "/shorten/#{link.id}"
