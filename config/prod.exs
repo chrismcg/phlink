@@ -7,7 +7,7 @@ use Mix.Config
 # You should also configure the url host to something
 # meaningful, we use this information when generating URLs.
 config :phlink, Phlink.Endpoint,
-  http: [port: {:system, "PORT"}],
+  http: [port: 80],
   url: [host: "phlink.herokuapp.com"]
 
 # ## SSL Support
