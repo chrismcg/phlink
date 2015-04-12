@@ -9,7 +9,7 @@
 
   <li>
     <strong>Shortcode:</strong>
-    <a href="http://phl.ink/<%= @link.shortcode %>">http://phl.ink/<%= @link.shortcode %></a>
+    <a href="<%= link_url(@conn, :unshorten, @link.shortcode) %>"><%= link_url(@conn, :unshorten, @link.shortcode) %></a>
   </li>
 
 </ul>

@@ -40,7 +40,7 @@ defmodule Phlink.LinkControllerTest do
     link = Repo.insert(%Link{url: "http://example.com", shortcode: "abc"})
     conn = get conn(), "/shorten/#{link.id}"
     assert conn.resp_body =~ ~r{<a.*?href="http://example.com"}
-    assert conn.resp_body =~ ~r{<a.*?href="http://phl.ink/abc"}
+    assert conn.resp_body =~ ~r{<a.*?href="http://localhost:4001/abc"}
   end
 
   test "GET /:shortcode redirects to url matching shortcode" do
