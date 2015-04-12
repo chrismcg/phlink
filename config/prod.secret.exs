@@ -9,6 +9,4 @@ config :phlink, Phlink.Endpoint,
 # Configure your database
 config :phlink, Phlink.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
-  database: "phlink_prod"
+  url: {:system, "DATABASE_URL"}
