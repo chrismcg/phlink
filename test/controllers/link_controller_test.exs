@@ -47,7 +47,7 @@ defmodule Phlink.LinkControllerTest do
     link = Repo.insert(%Link{url: "http://example.com", shortcode: "abc"})
     conn = get conn(), "/abc"
     assert conn.status == 301
-    assert Enum.any?(conn.resp_headers, &(&1 == {"Location", "http://phl.ink/#{link.shortcode}"}))
+    assert Enum.any?(conn.resp_headers, &(&1 == {"Location", "http://example.com"}))
   end
 
   test "GET /:shortcode 404s if shortcode not present" do
