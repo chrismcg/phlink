@@ -30,7 +30,8 @@ defmodule Phlink.LinkController do
   end
 
   def unshorten(conn, %{"shortcode" => shortcode}) do
-    case Repo.one(from l in Link, where: l.shortcode == ^shortcode) do
+    # case Repo.one(from l in Link, where: l.shortcode == ^shortcode) do
+    case Phlink.Cache.get_url(shortcode) do
       nil -> conn |> put_status(:not_found)
       link ->
         conn

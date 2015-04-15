@@ -11,8 +11,8 @@ defmodule Phlink do
       supervisor(Phlink.Endpoint, []),
       # Start the Ecto repository
       worker(Phlink.Repo, []),
-      # Here you could define other workers and supervisors as children
-      # worker(Phlink.Worker, [arg1, arg2, arg3]),
+      # Start the cache
+      supervisor(Phlink.Cache.Supervisor, []),
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
