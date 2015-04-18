@@ -44,9 +44,9 @@ defmodule Phlink.LinkControllerTest do
 
   test "GET /:shortcode redirects to url matching shortcode" do
     Repo.insert(@model)
-    conn = get conn(), "/abc"
+    conn = get conn(), @model.shortcode
     assert conn.status == 301
-    assert Enum.any?(conn.resp_headers, &(&1 == {"Location", "http://example.com"}))
+    assert Enum.any?(conn.resp_headers, &(&1 == {"Location", @model.url}))
   end
 
   test "GET /:shortcode 404s if shortcode not present" do
