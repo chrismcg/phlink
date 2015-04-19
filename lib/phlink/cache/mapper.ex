@@ -52,14 +52,6 @@ defmodule Phlink.Cache.Mapper do
     {pid, url, state}
   end
 
-  defp get_link_from_db(shortcode) do
-    alias Phlink.Link
-    alias Phlink.Repo
-    import Ecto.Query, only: [from: 2]
-
-    Repo.one(from l in Link, where: l.shortcode == ^shortcode)
-  end
-
   defp get_and_cache(shortcode) do
     case get_link_from_db(shortcode) do
       nil -> { nil, nil }
@@ -69,4 +61,13 @@ defmodule Phlink.Cache.Mapper do
         { pid, link.url }
     end
   end
+
+  defp get_link_from_db(shortcode) do
+    alias Phlink.Link
+    alias Phlink.Repo
+    import Ecto.Query, only: [from: 2]
+
+    Repo.one(from l in Link, where: l.shortcode == ^shortcode)
+  end
+
 end
