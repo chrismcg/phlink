@@ -14,7 +14,7 @@ defmodule Phlink.Cache.Mapper do
   def handle_call({:get_url, shortcode}, _from, state) do
     case cache_pid(shortcode, state) do
       nil ->
-        {pid, url, state} = cache_and_update_map(shortcode, state)
+        {_pid, url, state} = cache_and_update_map(shortcode, state)
         {:reply, url, state}
       pid ->
         url = Phlink.Cache.UrlCache.url(pid)
@@ -22,11 +22,11 @@ defmodule Phlink.Cache.Mapper do
     end
   end
 
-  def handle_call({:cache_url, shortcode, url}, _from, state) do
+  def handle_call({:warm, shortcode}, _from, state) do
     case cache_pid(shortcode, state) do
       # not cached so cache
       nil ->
-        {pid, url, state} = cache_and_update_map(shortcode, state)
+        {pid, _url, state} = cache_and_update_map(shortcode, state)
         {:reply, pid, state}
       # already cached so just reply with the pid
       pid ->

@@ -5,7 +5,7 @@ defmodule Phlink.Cache do
     GenServer.call(Mapper, {:get_url, shortcode})
   end
 
-  def cache_url(shortcode, url) do
-    GenServer.call(Mapper, {:cache_url, shortcode, url})
+  def warm(shortcode) do
+    GenServer.call(Mapper, {:warm, shortcode})
   end
 end
