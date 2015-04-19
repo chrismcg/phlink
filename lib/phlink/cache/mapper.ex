@@ -23,8 +23,8 @@ defmodule Phlink.Cache.Mapper do
         case get_link_from_db(shortcode) do
           nil -> nil # TODO: figure out how to cache nil
           link ->
-            pid = Phlink.Cache.UrlCacheSupervisor.start_child(link.url)
-            Dict.put(state, shortcode, pid)
+            {:ok, pid} = Phlink.Cache.UrlCacheSupervisor.start_child(link.url)
+            state = Dict.put(state, shortcode, pid)
             link.url
         end
       pid -> Phlink.Cache.UrlCache.url(pid)

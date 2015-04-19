@@ -49,6 +49,15 @@ defmodule Phlink.LinkControllerTest do
     assert Enum.any?(conn.resp_headers, &(&1 == {"Location", @model.url}))
   end
 
+  test "GET /:shortcode reads the url from the cache if it's there" do
+    Repo.insert(@model)
+    # warm the cache
+    Phlink.Cache.Mapper.get_url(@model.shortcode)
+    conn = get conn(), @model.shortcode
+    assert conn.status == 301
+    assert Enum.any?(conn.resp_headers, &(&1 == {"Location", @model.url}))
+  end
+
   test "GET /:shortcode 404s if shortcode not present" do
     conn = get conn(), "/notthere"
     assert conn.status == 404

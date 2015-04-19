@@ -9,11 +9,11 @@ defmodule Phlink.Cache.UrlCache do
     GenServer.call(pid, :url)
   end
 
-  def init([url]) do
+  def init(url) do
     {:ok, url}
   end
 
   def handle_call(:url, _from, url) do
-    {:ok, url, url}
+    {:reply, url, url}
   end
 end
