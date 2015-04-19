@@ -1,7 +1,7 @@
 defmodule Phlink.Cache.Mapper do
   use GenServer
 
-  defstruct shortcodes: %{}, pids: %{}
+  defstruct shortcodes: HashDict.new, pids: HashDict.new
 
   def start_link do
     GenServer.start_link(__MODULE__, [], name: __MODULE__)
