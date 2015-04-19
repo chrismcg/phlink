@@ -31,7 +31,12 @@ defmodule Phlink.LinkController do
 
   def unshorten(conn, %{"shortcode" => shortcode}) do
     case Phlink.Cache.get_url(shortcode) do
-      nil -> conn |> put_status(:not_found)
+      nil ->
+        conn
+        |> fetch_session
+        |> fetch_flash
+        |> put_status(:not_found)
+        |> render(Phlink.ErrorView, "404.html")
       url ->
         conn
         |> put_status(:moved_permanently)
