@@ -1,6 +1,8 @@
 defmodule Phlink.Cache.Mapper do
   use GenServer
 
+  defstruct shortcodes: %{}, pids: %{}
+
   alias Phlink.Link
   alias Phlink.Repo
   import Ecto.Query, only: [from: 2]
@@ -13,16 +15,18 @@ defmodule Phlink.Cache.Mapper do
     GenServer.call(__MODULE__, {:get_url, shortcode})
   end
 
+  def cache_url(shortcode, url) do
+    GenServer.call(__MODULE__, {:cache_url, shortcode, url})
+  end
+
   def init([]) do
-    {:ok, %{}}
+    {:ok, %Phlink.Cache.Mapper{}}
   end
 
   def handle_call({:get_url, shortcode}, _from, state) do
-    cache_pid = Dict.get(state, shortcode)
-    case cache_pid do
+    case cache_pid(shortcode, state) do
       nil ->
-        {pid, url} = get_and_cache(shortcode, state)
-        state = Dict.put(state, shortcode, pid)
+        {pid, url, state} = cache_and_update_map(shortcode, state)
         {:reply, url, state}
       pid ->
         url = Phlink.Cache.get_url(pid)
@@ -30,15 +34,46 @@ defmodule Phlink.Cache.Mapper do
     end
   end
 
+  def handle_call({:cache_url, shortcode, url}, _from, state) do
+    case cache_pid(shortcode, state) do
+      # not cached so cache
+      nil ->
+        {pid, url, state} = cache_and_update_map(shortcode, state)
+        {:reply, pid, state}
+      # already cached so just reply with the pid
+      pid ->
+        {:reply, pid, state}
+    end
+  end
+
+  def handle_info({:'DOWN', _, _, pid, _}, state) do
+    shortcode_for_pid = Dict.get(state.pids, pid)
+    state = %{state | shortcodes: Dict.delete(state.shortcodes, shortcode_for_pid)}
+    state = %{state | pids: Dict.delete(state.pids, pid)}
+    {:noreply, state}
+  end
+
+  defp cache_pid(shortcode, state) do
+    Dict.get(state.shortcodes, shortcode)
+  end
+
+  defp cache_and_update_map(shortcode, state) do
+    {pid, url} = get_and_cache(shortcode)
+    state = %{state | shortcodes: Dict.put(state.shortcodes, shortcode, pid)}
+    state = %{state | pids: Dict.put(state.pids, pid, shortcode)}
+    {pid, url, state}
+  end
+
   defp get_link_from_db(shortcode) do
     Repo.one(from l in Link, where: l.shortcode == ^shortcode)
   end
 
-  defp get_and_cache(shortcode, state) do
+  defp get_and_cache(shortcode) do
     case get_link_from_db(shortcode) do
-      nil -> { state, nil } # TODO: figure out how to cache nil
+      nil -> { nil, nil }
       link ->
         {:ok, pid} = Phlink.Cache.store_url(link.url)
+        Process.monitor(pid)
         { pid, link.url }
     end
   end
