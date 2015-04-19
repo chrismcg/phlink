@@ -11,14 +11,6 @@ defmodule Phlink.Cache.Mapper do
     GenServer.start_link(__MODULE__, [], name: __MODULE__)
   end
 
-  def get_url(shortcode) do
-    GenServer.call(__MODULE__, {:get_url, shortcode})
-  end
-
-  def cache_url(shortcode, url) do
-    GenServer.call(__MODULE__, {:cache_url, shortcode, url})
-  end
-
   def init([]) do
     {:ok, %Phlink.Cache.Mapper{}}
   end
@@ -29,7 +21,7 @@ defmodule Phlink.Cache.Mapper do
         {pid, url, state} = cache_and_update_map(shortcode, state)
         {:reply, url, state}
       pid ->
-        url = Phlink.Cache.get_url(pid)
+        url = Phlink.Cache.UrlCache.url(pid)
         {:reply, url, state}
     end
   end
@@ -72,7 +64,7 @@ defmodule Phlink.Cache.Mapper do
     case get_link_from_db(shortcode) do
       nil -> { nil, nil }
       link ->
-        {:ok, pid} = Phlink.Cache.store_url(link.url)
+        {:ok, pid} = Phlink.Cache.UrlCacheSupervisor.start_child(link.url)
         Process.monitor(pid)
         { pid, link.url }
     end

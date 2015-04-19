@@ -1,6 +1,11 @@
 defmodule Phlink.Cache do
-  def get_url(pid) when is_pid(pid), do: Phlink.Cache.UrlCache.url(pid)
-  def get_url(shortcode), do: Phlink.Cache.Mapper.get_url(shortcode)
+  alias Phlink.Cache.Mapper
 
-  def store_url(url), do: Phlink.Cache.UrlCacheSupervisor.start_child(url)
+  def get_url(shortcode) do
+    GenServer.call(Mapper, {:get_url, shortcode})
+  end
+
+  def cache_url(shortcode, url) do
+    GenServer.call(Mapper, {:cache_url, shortcode, url})
+  end
 end

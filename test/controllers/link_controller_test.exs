@@ -52,7 +52,7 @@ defmodule Phlink.LinkControllerTest do
   test "GET /:shortcode reads the url from the cache if it's there" do
     Repo.insert(@model)
     # warm the cache
-    Phlink.Cache.Mapper.cache_url(@model.shortcode, @model.url)
+    Phlink.Cache.cache_url(@model.shortcode, @model.url)
     conn = get conn(), @model.shortcode
     assert conn.status == 301
     assert Enum.any?(conn.resp_headers, &(&1 == {"Location", @model.url}))
@@ -61,7 +61,7 @@ defmodule Phlink.LinkControllerTest do
   test "GET /:shortcode handles the cache being expired" do
     Repo.insert(@model)
     # warm the cache
-    pid = Phlink.Cache.Mapper.cache_url(@model.shortcode, @model.url)
+    pid = Phlink.Cache.cache_url(@model.shortcode, @model.url)
     send(pid, :timeout)
     conn = get conn(), @model.shortcode
     assert conn.status == 301
