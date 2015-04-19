@@ -1,5 +1,6 @@
 defmodule Phlink.Cache.Mapper do
   use GenServer
+  alias Phlink.Cache
 
   defstruct shortcodes: HashDict.new, pids: HashDict.new
 
@@ -8,7 +9,7 @@ defmodule Phlink.Cache.Mapper do
   end
 
   def init([]) do
-    {:ok, %Phlink.Cache.Mapper{}}
+    {:ok, %Cache.Mapper{}}
   end
 
   def handle_call({:get_url, shortcode}, _from, state) do
@@ -17,7 +18,7 @@ defmodule Phlink.Cache.Mapper do
         {_pid, url, state} = cache_and_update_map(shortcode, state)
         {:reply, url, state}
       pid ->
-        url = Phlink.Cache.UrlCache.url(pid)
+        url = Cache.UrlCache.url(pid)
         {:reply, url, state}
     end
   end
@@ -56,7 +57,7 @@ defmodule Phlink.Cache.Mapper do
     case get_link_from_db(shortcode) do
       nil -> { nil, nil }
       link ->
-        {:ok, pid} = Phlink.Cache.UrlCacheSupervisor.start_child(link.url)
+        {:ok, pid} = Cache.UrlCacheSupervisor.start_child(link.url)
         Process.monitor(pid)
         { pid, link.url }
     end

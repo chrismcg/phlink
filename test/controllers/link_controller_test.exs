@@ -1,5 +1,6 @@
 defmodule Phlink.LinkControllerTest do
   use Phlink.ConnCase
+  alias Phlink.Cache
 
   @model %Link{url: "http://example.com", shortcode: "abc"}
 
@@ -51,7 +52,7 @@ defmodule Phlink.LinkControllerTest do
 
   test "GET /:shortcode reads the url from the cache if it's there" do
     Repo.insert(@model)
-    Phlink.Cache.warm(@model.shortcode)
+    Cache.warm(@model.shortcode)
     conn = get conn(), @model.shortcode
     assert conn.status == 301
     assert Enum.any?(conn.resp_headers, &(&1 == {"Location", @model.url}))
@@ -59,7 +60,7 @@ defmodule Phlink.LinkControllerTest do
 
   test "GET /:shortcode handles the cache being expired" do
     Repo.insert(@model)
-    pid = Phlink.Cache.warm(@model.shortcode)
+    pid = Cache.warm(@model.shortcode)
     send(pid, :timeout)
     conn = get conn(), @model.shortcode
     assert conn.status == 301
