@@ -19,11 +19,15 @@ defmodule Phlink.Cache.Mapper do
 
   def handle_call({:get_url, shortcode}, _from, state) do
     cache_pid = Dict.get(state, shortcode)
-    {state, url} = case cache_pid do
-      nil -> get_and_cache(shortcode, state)
-      pid -> { state, Phlink.Cache.get_url(pid) }
+    case cache_pid do
+      nil ->
+        {pid, url} = get_and_cache(shortcode, state)
+        state = Dict.put(state, shortcode, pid)
+        {:reply, url, state}
+      pid ->
+        url = Phlink.Cache.get_url(pid)
+        {:reply, url, state}
     end
-    {:reply, url, state}
   end
 
   defp get_link_from_db(shortcode) do
@@ -35,8 +39,7 @@ defmodule Phlink.Cache.Mapper do
       nil -> { state, nil } # TODO: figure out how to cache nil
       link ->
         {:ok, pid} = Phlink.Cache.store_url(link.url)
-        state = Dict.put(state, shortcode, pid)
-        { state, link.url }
+        { pid, link.url }
     end
   end
 end
