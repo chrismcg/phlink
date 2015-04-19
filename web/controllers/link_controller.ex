@@ -33,10 +33,10 @@ defmodule Phlink.LinkController do
     # case Repo.one(from l in Link, where: l.shortcode == ^shortcode) do
     case Phlink.Cache.get_url(shortcode) do
       nil -> conn |> put_status(:not_found)
-      link ->
+      url ->
         conn
         |> put_status(:moved_permanently)
-        |> redirect(external: link.url)
+        |> redirect(external: url)
     end
   end
 end

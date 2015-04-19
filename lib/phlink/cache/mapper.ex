@@ -18,13 +18,21 @@ defmodule Phlink.Cache.Mapper do
   end
 
   def handle_call({:get_url, shortcode}, _from, state) do
-    link = Repo.one(from l in Link, where: l.shortcode == ^shortcode)
+    url = case Dict.get(state, shortcode) do
+      nil ->
+        case get_link_from_db(shortcode) do
+          nil -> nil # TODO: figure out how to cache nil
+          link ->
+            pid = Phlink.Cache.UrlCacheSupervisor.start_child(link.url)
+            Dict.put(state, shortcode, pid)
+            link.url
+        end
+      pid -> Phlink.Cache.UrlCache.url(pid)
+    end
+    {:reply, url, state}
+  end
 
-    # TODO: see if shortcode is in state, if not look up from db, and cache
-    # result. See if it's possible to reply with the value before performing
-    # the cache (but watch for race condition if two requests for same url)
-    # maybe spawn a background worker and use the _from and reply to handle
-    # this
-    {:reply, link, state}
+  defp get_link_from_db(shortcode) do
+    Repo.one(from l in Link, where: l.shortcode == ^shortcode)
   end
 end

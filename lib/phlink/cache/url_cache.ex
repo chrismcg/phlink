@@ -5,8 +5,8 @@ defmodule Phlink.Cache.UrlCache do
     GenServer.start_link(__MODULE__, url)
   end
 
-  def url do
-    GenServer.call(__MODULE__, :url)
+  def url(pid) do
+    GenServer.call(pid, :url)
   end
 
   def init([url]) do
