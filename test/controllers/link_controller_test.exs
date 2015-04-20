@@ -2,7 +2,9 @@ defmodule Phlink.LinkControllerTest do
   use Phlink.ConnCase
   alias Phlink.Cache
 
-  @model %Link{url: "http://example.com", shortcode: "abc"}
+  @url "http://example.com"
+  @expected_shortcode UUID.uuid5(:url, @url, :hex)
+  @model %Link{url: @url, shortcode: @expected_shortcode}
 
   test "GET / renders new link form" do
     conn = get conn(), "/"
@@ -40,7 +42,7 @@ defmodule Phlink.LinkControllerTest do
     link = Repo.insert(@model)
     conn = get conn(), "/shorten/#{link.id}"
     assert conn.resp_body =~ ~r{<a.*?href="http://example.com"}
-    assert conn.resp_body =~ ~r{<a.*?href="http://localhost:4001/abc"}
+    assert conn.resp_body =~ ~r{<a.*?href="http://localhost:4001/#{@expected_shortcode}"}
   end
 
   test "GET /:shortcode redirects to url matching shortcode" do
