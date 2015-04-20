@@ -3,12 +3,13 @@ defmodule Phlink.Repo.Migrations.CreateLink do
 
   def change do
     create table(:links) do
-      add :url, :string
+      add :url, :text
       add :shortcode, :string
 
       timestamps
     end
 
+    create index(:links, [:url], unique: true)
     create index(:links, [:shortcode], unique: true)
   end
 end
