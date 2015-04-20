@@ -29,7 +29,6 @@ defmodule Phlink.LinkControllerTest do
     assert Enum.any?(conn.resp_headers, &(&1 == {"Location", "/shorten/#{link.id}"}))
   end
 
-
   test "POST /shorten errors if the url is blank" do
     assert link_count == 0
     conn = post conn(), "/shorten", %{"link": %{"url": ""}}
