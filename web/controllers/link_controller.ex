@@ -2,6 +2,7 @@ defmodule Phlink.LinkController do
   use Phlink.Web, :controller
 
   alias Phlink.Link
+  alias Phlink.Cache
 
   plug :scrub_params, "link" when action in [:create]
   plug :action
@@ -26,6 +27,7 @@ defmodule Phlink.LinkController do
     changeset = Link.changeset(%Link{}, link_params)
     if changeset.valid? do
       link = Repo.insert(changeset)
+      Cache.warm(link.shortcode)
 
       conn
       |> redirect(to: link_path(conn, :show, link.id))
@@ -35,6 +37,7 @@ defmodule Phlink.LinkController do
   end
   # when the url has been shortened before just show the existing record
   defp do_create(conn, link, _link_params) do
+    Cache.warm(link.shortcode)
     conn
     |> redirect(to: link_path(conn, :show, link.id))
   end
