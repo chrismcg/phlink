@@ -1,5 +1,6 @@
 defmodule Phlink.Link do
   use Phlink.Web, :model
+  alias Phlink.Repo
 
   schema "links" do
     field :url, :string
@@ -25,10 +26,16 @@ defmodule Phlink.Link do
         shortcode = UUID.uuid5(:url, url, :hex)
         change(changeset, %{shortcode: shortcode})
     end
-    validate_change changeset, :url, fn(:url, url) ->
+    changeset
+    |> validate_unique(:shortcode, on: Repo)
+    |> validate_url(:url)
+  end
+
+  defp validate_url(changeset, field) do
+    validate_change changeset, field, fn(field, url) ->
       case :http_uri.parse(String.to_char_list(url)) do
         { :ok, _ } -> []
-        { :error, _ } -> [{:url, "is invalid"}]
+        { :error, reason } -> [{field, "is not a url"}]
       end
     end
   end

@@ -12,8 +12,18 @@ defmodule Phlink.LinkController do
   end
 
   def create(conn, %{"link" => link_params}) do
-    changeset = Link.changeset(%Link{}, link_params)
+    # try to find an existing url
+    link = case link_params["url"] do
+      nil -> nil
+      url -> Repo.one(from l in Link, where: l.url == ^url)
+    end
 
+    do_create(conn, link, link_params)
+  end
+
+  # when the url hasn't been shortened before try to create the short version
+  defp do_create(conn, nil, link_params) do
+    changeset = Link.changeset(%Link{}, link_params)
     if changeset.valid? do
       link = Repo.insert(changeset)
 
@@ -22,6 +32,11 @@ defmodule Phlink.LinkController do
     else
       render conn, "new.html", changeset: changeset
     end
+  end
+  # when the url has been shortened before just show the existing record
+  defp do_create(conn, link, _link_params) do
+    conn
+    |> redirect(to: link_path(conn, :show, link.id))
   end
 
   def show(conn, %{"id" => id}) do
