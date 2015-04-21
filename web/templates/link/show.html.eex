@@ -1,15 +1,8 @@
-<h2>Show link</h2>
-
-<ul>
-
-  <li>
-    <strong>Url:</strong>
-    <a href="<%= @link.url %>"><%= @link.url %></a>
-  </li>
-
-  <li>
-    <strong>Shortcode:</strong>
+<div class="jumbotron">
+  <h1 class="text-center">
     <a href="<%= link_url(@conn, :unshorten, @link.shortcode) %>"><%= link_url(@conn, :unshorten, @link.shortcode) %></a>
-  </li>
-
-</ul>
+  </h1>
+  <p class="lead text-center">
+    <a href="<%= @link.url %>"><%= @link.url %></a>
+  </p>
+</div>
