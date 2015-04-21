@@ -24,6 +24,8 @@ defmodule Phlink.Link do
       nil -> changeset
       url ->
         shortcode = UUID.uuid5(:url, url, :hex)
+                    |> :erlang.phash2
+                    |> Integer.to_string(16)
         change(changeset, %{shortcode: shortcode})
     end
     changeset

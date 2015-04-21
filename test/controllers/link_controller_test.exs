@@ -3,7 +3,7 @@ defmodule Phlink.LinkControllerTest do
   alias Phlink.Cache
 
   @url "http://example.com"
-  @expected_shortcode UUID.uuid5(:url, @url, :hex)
+  @expected_shortcode UUID.uuid5(:url, @url, :hex) |> :erlang.phash2 |> Integer.to_string(16)
   @model %Link{url: @url, shortcode: @expected_shortcode}
 
   test "GET / renders new link form" do
