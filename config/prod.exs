@@ -9,7 +9,7 @@ use Mix.Config
 config :phlink, Phlink.Endpoint,
   http: [port: {:system, "PORT"}],
   url: [
-    host: "phlink.herokuapp.com",
+    host: "phl.ink",
     port: 80
   ]
 
