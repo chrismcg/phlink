@@ -4,7 +4,7 @@ use Mix.Config
 # you likely want to automate and keep it away from
 # your version control system.
 config :phlink, Phlink.Endpoint,
-  secret_key_base: {:system, "SECRET_KEY_BASE"}
+  secret_key_base: System.get_env("SECRET_KEY_BASE")
 
 # Configure your database
 config :phlink, Phlink.Repo,
