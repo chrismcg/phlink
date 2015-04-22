@@ -82,7 +82,6 @@ defmodule Phlink.LinkControllerTest do
   end
 
   def link_count do
-    %{rows: [{count}]} = Ecto.Adapters.SQL.query Repo, "SELECT COUNT(*) FROM links", []
-    count
+    from(l in Link, select: count(l.shortcode)) |> Repo.one
   end
 end
