@@ -16,9 +16,21 @@ defmodule Phlink.Mixfile do
   #
   # Type `mix help compile.app` for more information
   def application do
-    [mod: {Phlink, []},
-     applications: [:phoenix, :cowboy, :logger, :ecto]]
+    [
+      mod: {Phlink, []},
+      applications: app_list(Mix.env)
+    ]
   end
+
+  defp app_list(:dev), do: [:dotenv | app_list]
+  defp app_list(_), do: app_list
+  defp app_list, do: [
+    :phoenix,
+    :cowboy,
+    :logger,
+    :ecto,
+    :hackney
+  ]
 
   # Specifies which paths to compile per environment
   defp elixirc_paths(:test), do: ["lib", "web", "test/support"]
@@ -34,7 +46,9 @@ defmodule Phlink.Mixfile do
      {:postgrex, ">= 0.0.0"},
      {:phoenix_live_reload, "~> 0.3"},
      {:cowboy, "~> 1.0"},
-     {:uuid, "~> 1.0" }
+     {:uuid, "~> 1.0" },
+     {:oauth2, github: "scrogson/oauth2"},
+     {:dotenv, "~> 0.0.4"}
    ]
   end
 end

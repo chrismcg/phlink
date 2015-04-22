@@ -15,3 +15,5 @@ erl_crash.dump
 #/priv/static/css
 /priv/static/css/*.map
 /priv/static/js
+
+/.env

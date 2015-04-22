@@ -6,10 +6,18 @@ defmodule Phlink.Router do
     plug :fetch_session
     plug :fetch_flash
     plug :protect_from_forgery
+    plug :assign_current_user
   end
 
   pipeline :unshorten do
     plug :accepts, ["html"]
+  end
+
+  scope "/auth", Phlink do
+    pipe_through :browser
+
+    get "/", AuthController, :index
+    get "/callback", AuthController, :callback
   end
 
   scope "/", Phlink do
@@ -23,5 +31,9 @@ defmodule Phlink.Router do
     get "/", LinkController, :new
     get "/shorten/:id", LinkController, :show
     post "/shorten", LinkController, :create
+  end
+
+  defp assign_current_user(conn, _) do
+    assign(conn, :current_user, get_session(conn, :current_user))
   end
 end
