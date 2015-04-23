@@ -48,7 +48,8 @@ defmodule Phlink.Mixfile do
      {:cowboy, "~> 1.0"},
      {:uuid, "~> 1.0" },
      {:oauth2, github: "scrogson/oauth2"},
-     {:dotenv, "~> 0.0.4"}
+     {:dotenv, "~> 0.0.4"},
+     {:mock, "~> 0.1.0", only: :test}
    ]
   end
 end

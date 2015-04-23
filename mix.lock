@@ -7,6 +7,8 @@
   "hackney": {:hex, :hackney, "1.1.0"},
   "httpoison": {:hex, :httpoison, "0.6.2"},
   "idna": {:hex, :idna, "1.0.2"},
+  "meck": {:hex, :meck, "0.8.2"},
+  "mock": {:hex, :mock, "0.1.0"},
   "oauth2": {:git, "git://github.com/scrogson/oauth2.git", "49659ce332bde54784c5ac93b9be6115db48eba7", []},
   "phoenix": {:git, "git://github.com/phoenixframework/phoenix.git", "c117a9f347a4bf9feb210b5653841d5b417288fe", []},
   "phoenix_ecto": {:hex, :phoenix_ecto, "0.3.0"},
