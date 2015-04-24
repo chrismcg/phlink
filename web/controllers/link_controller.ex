@@ -1,5 +1,6 @@
 defmodule Phlink.LinkController do
   use Phlink.Web, :controller
+  require Logger
 
   alias Phlink.Link
   alias Phlink.Cache
@@ -24,6 +25,7 @@ defmodule Phlink.LinkController do
 
   # when the url hasn't been shortened before try to create the short version
   defp do_create(conn, nil, link_params) do
+    link_params = Dict.merge(link_params, %{"user_id" => conn.assigns[:current_user].id})
     changeset = Link.changeset(%Link{}, link_params)
     if changeset.valid? do
       link = Repo.insert(changeset)

@@ -1,14 +1,15 @@
 defmodule Phlink.LinkControllerTest do
   use Phlink.ConnCase
   alias Phlink.Cache
+  alias Phlink.User
 
   @url "http://example.com"
   @expected_shortcode UUID.uuid5(:url, @url, :hex) |> :erlang.phash2 |> Integer.to_string(16)
   @model %Link{url: @url, shortcode: @expected_shortcode}
   @current_user %{
     id: 212,
+    name: "Chris McGrath",
     avatar_url: "https://avatars.githubusercontent.com/u/212?v=3",
-    name: "Chris McGrath"
   }
 
   test "GET /shorten/new redirects if user isn't logged in" do
@@ -25,15 +26,17 @@ defmodule Phlink.LinkControllerTest do
   end
 
   test "POST /shorten creates a shortened url and redirects" do
+    user = create_user
     assert link_count == 0
 
     conn = conn()
-    |> assign(:current_user, @current_user)
+    |> assign(:current_user, %{@current_user | id: user.id})
     |> post("/shorten", %{"link": %{"url": @model.url}})
 
     assert link_count == 1
-    link = Repo.one!(from l in Link, select: l)
+    link = Repo.one!(from l in Link, select: l, preload: [:user])
     assert link.shortcode == @expected_shortcode
+    assert link.user_id == user.id
     assert html_response(conn, 302)
     assert Enum.any?(conn.resp_headers, &(&1 == {"location", "/shorten/#{link.id}"}))
   end
@@ -104,7 +107,17 @@ defmodule Phlink.LinkControllerTest do
     assert html_response(conn, 404)
   end
 
-  def link_count do
+  defp link_count do
     from(l in Link, select: count(l.shortcode)) |> Repo.one
+  end
+
+  defp create_user do
+    user = %User{
+      name: "Chris McGrath",
+      github_user: %{
+        avatar_url: "https://avatars.githubusercontent.com/u/212?v=3",
+      }
+    }
+    Repo.insert(user)
   end
 end

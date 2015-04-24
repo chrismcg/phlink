@@ -1,15 +1,17 @@
 defmodule Phlink.Link do
   use Phlink.Web, :model
   alias Phlink.Repo
+  alias Phlink.User
 
   schema "links" do
     field :url, :string
     field :shortcode, :string
+    belongs_to :user, User
 
     timestamps
   end
 
-  @required_fields ~w(url)
+  @required_fields ~w(url user_id)
   @optional_fields ~w()
 
   @doc """
