@@ -13,6 +13,10 @@ defmodule Phlink.Router do
     plug :accepts, ["html"]
   end
 
+  pipeline :authentication do
+    plug :redirect_if_not_logged_in
+  end
+
   scope "/auth", Phlink do
     pipe_through :browser
 
@@ -26,18 +30,33 @@ defmodule Phlink.Router do
   end
 
   scope "/", Phlink do
-    pipe_through :browser # Use the default browser stack
-
+    pipe_through :browser
     get "/", PageController, :index
-    get "/shorten/new", LinkController, :new
-    get "/shorten/:id", LinkController, :show
-    post "/shorten", LinkController, :create
+  end
+
+  scope "/shorten", Phlink do
+    pipe_through [:browser, :authentication]
+
+    get "/new", LinkController, :new
+    get "/:id", LinkController, :show
+    post "/", LinkController, :create
   end
 
   defp assign_current_user(conn, _) do
     # we assign a user in tests so we don't have to mess with the session
     case conn.assigns[:current_user] do
       nil -> assign(conn, :current_user, get_session(conn, :current_user))
+      _ -> conn
+    end
+  end
+
+  defp redirect_if_not_logged_in(conn, _) do
+    case conn.assigns[:current_user] do
+      nil ->
+        conn
+        |> put_flash(:error, "Please login")
+        |> redirect(to: "/")
+        |> halt()
       _ -> conn
     end
   end
