@@ -35,6 +35,10 @@ defmodule Phlink.Router do
   end
 
   defp assign_current_user(conn, _) do
-    assign(conn, :current_user, get_session(conn, :current_user))
+    # we assign a user in tests so we don't have to mess with the session
+    case conn.assigns[:current_user] do
+      nil -> assign(conn, :current_user, get_session(conn, :current_user))
+      _ -> conn
+    end
   end
 end
