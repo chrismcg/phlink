@@ -6,8 +6,8 @@ defmodule Phlink.LinkControllerTest do
   @expected_shortcode UUID.uuid5(:url, @url, :hex) |> :erlang.phash2 |> Integer.to_string(16)
   @model %Link{url: @url, shortcode: @expected_shortcode}
 
-  test "GET / renders new link form" do
-    conn = get conn(), "/"
+  test "GET /shorten/new renders new link form" do
+    conn = get conn(), "/shorten/new"
     assert html_response(conn, 200) =~ ~r/<input.*?name="link\[url\]"/
   end
 
