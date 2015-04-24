@@ -36,7 +36,11 @@ defmodule Phlink.AuthController do
 
   defp put_user_in_session(conn, user, token) do
     conn
-    |> put_session(:current_user, user)
+    |> put_session(:current_user, %{
+      id: user.id,
+      name: user.name,
+      avatar_url: user.github_user["avatar_url"]
+    })
     |> put_session(:access_token, token.access_token)
   end
 end
