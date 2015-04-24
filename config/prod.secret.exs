@@ -9,4 +9,5 @@ config :phlink, Phlink.Endpoint,
 # Configure your database
 config :phlink, Phlink.Repo,
   adapter: Ecto.Adapters.Postgres,
+  extensions: [{Extensions.JSON, library: Poison],
   url: {:system, "DATABASE_URL"}

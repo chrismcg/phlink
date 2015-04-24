@@ -31,4 +31,5 @@ config :phlink, Phlink.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: "postgres",
   password: "postgres",
-  database: "phlink_dev"
+  database: "phlink_dev",
+  extensions: [{Extensions.JSON, library: Poison}]
