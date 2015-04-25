@@ -17,22 +17,18 @@ defmodule Phlink.AuthControllerTest do
   end
 
   test "GET /auth/callback?code=<code> puts the current user and access token in the session" do
-    with_mock GitHub, [get_token!: fn(code: "test") -> @token end] do
-      with_mock OAuth2.AccessToken, [get!: fn(@token , "/user") -> @github_user end] do
-        assert conn()
-          |> get("/auth/callback?code=test")
-          |> redirected_to() == "/"
-      end
+    with_mock GitHub, [get_token_and_user: fn("test") -> {@token, @github_user} end] do
+      assert conn()
+        |> get("/auth/callback?code=test")
+        |> redirected_to() == "/"
     end
   end
 
   test "GET /auth/callback?code=<code> creates a user if they're not already in the db" do
     assert user_count == 0
-    with_mock GitHub, [get_token!: fn(code: "test") -> @token end] do
-      with_mock OAuth2.AccessToken, [get!: fn(@token , "/user") -> @github_user end] do
-        conn()
-          |> get("/auth/callback?code=test")
-      end
+    with_mock GitHub, [get_token_and_user: fn("test") -> {@token, @github_user} end] do
+      conn()
+        |> get("/auth/callback?code=test")
     end
     assert user_count == 1
     user = Repo.one!(from u in User, select: u)
@@ -43,13 +39,11 @@ defmodule Phlink.AuthControllerTest do
 
   test "GET /auth/callback?code=<code> uses the existing user if their github id is already in the db" do
     user = Repo.insert(%User{name: "Test User", github_id: 212, github_user: @github_user})
-    with_mock GitHub, [get_token!: fn(code: "test") -> @token end] do
-      with_mock OAuth2.AccessToken, [get!: fn(@token , "/user") -> @github_user end] do
-        current_user = conn()
-          |> get("/auth/callback?code=test")
-          |> get_session(:current_user)
-        assert current_user.id == user.id
-      end
+    with_mock GitHub, [get_token_and_user: fn("test") -> {@token, @github_user} end] do
+      current_user = conn()
+        |> get("/auth/callback?code=test")
+        |> get_session(:current_user)
+      assert current_user.id == user.id
     end
   end
 

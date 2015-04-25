@@ -9,8 +9,7 @@ defmodule Phlink.AuthController do
   end
 
   def callback(conn, %{"code" => code}) do
-    token = GitHub.get_token!(code: code)
-    github_user = OAuth2.AccessToken.get!(token, "/user")
+    {token, github_user} = GitHub.get_token_and_user(code)
     %{"name" => name, "id" => github_id} = github_user
 
     user = Repo.one(from u in User, where: u.github_id == ^github_id)

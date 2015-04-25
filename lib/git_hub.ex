@@ -26,6 +26,12 @@ defmodule GitHub do
     OAuth2.Client.get_token!(new(), params, headers)
   end
 
+  def get_token_and_user(code) do
+    token = GitHub.get_token!(code: code)
+    github_user = OAuth2.AccessToken.get!(token, "/user")
+    {token, github_user}
+  end
+
   # Strategy Callbacks
 
   def authorize_url(client, params) do
