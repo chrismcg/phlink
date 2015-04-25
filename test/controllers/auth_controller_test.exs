@@ -2,7 +2,6 @@ defmodule Phlink.AuthControllerTest do
   use Phlink.ConnCase
   import Mock
 
-  @token %{access_token: "test_token"}
   @github_user %{
     "login" => "chrismcg",
     "id" => 212,
@@ -16,8 +15,8 @@ defmodule Phlink.AuthControllerTest do
       |> redirected_to() == GitHub.authorize_url!
   end
 
-  test "GET /auth/callback?code=<code> puts the current user and access token in the session" do
-    with_mock GitHub, [get_token_and_user: fn("test") -> {@token, @github_user} end] do
+  test "GET /auth/callback?code=<code> puts the current user in the session" do
+    with_mock GitHub, [get_user: fn("test") -> @github_user end] do
       assert conn()
         |> get("/auth/callback?code=test")
         |> redirected_to() == "/"
@@ -26,7 +25,7 @@ defmodule Phlink.AuthControllerTest do
 
   test "GET /auth/callback?code=<code> creates a user if they're not already in the db" do
     assert user_count == 0
-    with_mock GitHub, [get_token_and_user: fn("test") -> {@token, @github_user} end] do
+    with_mock GitHub, [get_user: fn("test") -> @github_user end] do
       conn()
         |> get("/auth/callback?code=test")
     end
@@ -39,7 +38,7 @@ defmodule Phlink.AuthControllerTest do
 
   test "GET /auth/callback?code=<code> uses the existing user if their github id is already in the db" do
     user = Repo.insert(%User{name: "Test User", github_id: 212, github_user: @github_user})
-    with_mock GitHub, [get_token_and_user: fn("test") -> {@token, @github_user} end] do
+    with_mock GitHub, [get_user: fn("test") -> @github_user end] do
       current_user = conn()
         |> get("/auth/callback?code=test")
         |> get_session(:current_user)

@@ -9,37 +9,36 @@ defmodule Phlink.AuthController do
   end
 
   def callback(conn, %{"code" => code}) do
-    {token, github_user} = GitHub.get_token_and_user(code)
+    github_user = GitHub.get_user(code)
     %{"name" => name, "id" => github_id} = github_user
 
     user = Repo.one(from u in User, where: u.github_id == ^github_id)
 
     conn
-    |> handle_callback(user, token, name, github_id, github_user)
+    |> handle_callback(user, name, github_id, github_user)
     |> redirect(to: "/")
   end
 
-  defp handle_callback(conn, nil, token, name, github_id, github_user) do
+  defp handle_callback(conn, nil, name, github_id, github_user) do
     changeset = User.changeset(%User{}, %{name: name, github_id: github_id, github_user: github_user})
     if changeset.valid? do
       user = Repo.insert(changeset)
-      put_user_in_session(conn, user, token)
+      put_user_in_session(conn, user)
     else
       conn
       |> put_flash(:error, "Couldn't login with GitHub :(")
     end
   end
-  defp handle_callback(conn, user, token, _name, _github_id, _github_user) do
-    put_user_in_session(conn, user, token)
+  defp handle_callback(conn, user, _name, _github_id, _github_user) do
+    put_user_in_session(conn, user)
   end
 
-  defp put_user_in_session(conn, user, token) do
+  defp put_user_in_session(conn, user) do
     conn
     |> put_session(:current_user, %{
       id: user.id,
       name: user.name,
       avatar_url: user.github_user["avatar_url"]
     })
-    |> put_session(:access_token, token.access_token)
   end
 end
