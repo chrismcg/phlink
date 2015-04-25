@@ -4,12 +4,13 @@ defmodule Phlink.User do
   schema "users" do
     field :name, :string
     field :github_id, :integer
+    field :avatar_url, :string
     field :github_user, Phlink.JSONB
 
     timestamps
   end
 
-  @required_fields ~w(name github_id github_user)
+  @required_fields ~w(name github_id avatar_url github_user)
   @optional_fields ~w()
 
   @doc """

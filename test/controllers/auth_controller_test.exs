@@ -19,9 +19,11 @@ defmodule Phlink.AuthControllerTest do
     with_mock GitHub, [get_user: fn("test") -> @github_user end] do
       conn = conn() |> get("/auth/callback?code=test")
       assert redirected_to(conn) == "/"
+
       current_user = get_session(conn, :current_user)
       user = Repo.one!(from u in User, select: u)
-      assert current_user.id== user.id
+
+      assert current_user.id == user.id
       assert current_user.name == @github_user["name"]
       assert current_user.avatar_url == @github_user["avatar_url"]
     end
@@ -34,9 +36,12 @@ defmodule Phlink.AuthControllerTest do
         |> get("/auth/callback?code=test")
     end
     assert user_count == 1
+
     user = Repo.one!(from u in User, select: u)
+
     assert user.name == "Chris McGrath"
-    assert user.github_id == 212
+    assert user.github_id == @github_user["id"]
+    assert user.avatar_url == @github_user["avatar_url"]
     assert user.github_user == @github_user
   end
 

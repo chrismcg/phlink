@@ -6,6 +6,7 @@ defmodule Phlink.UserTest do
   @valid_attrs %{
     name: "some content",
     github_id: 212,
+    avatar_url: "https://avatars.githubusercontent.com/u/212?v=3",
     github_user: %{
     "login" => "chrismcg",
     "id" => 212,
