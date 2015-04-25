@@ -1,9 +1,5 @@
 defmodule Phlink.LinkController do
   use Phlink.Web, :controller
-  require Logger
-
-  alias Phlink.Link
-  alias Phlink.Cache
 
   plug :scrub_params, "link" when action in [:create]
   plug :action
@@ -17,7 +13,7 @@ defmodule Phlink.LinkController do
     # try to find an existing url
     link = case link_params["url"] do
       nil -> nil
-      url -> Repo.one(from l in Link, where: l.url == ^url)
+      url -> Link.from_url(url)
     end
 
     do_create(conn, link, link_params)

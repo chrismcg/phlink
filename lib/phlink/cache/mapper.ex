@@ -1,6 +1,7 @@
 defmodule Phlink.Cache.Mapper do
   use GenServer
   alias Phlink.Cache
+  alias Phlink.Link
 
   defstruct shortcodes: HashDict.new, pids: HashDict.new
 
@@ -64,11 +65,6 @@ defmodule Phlink.Cache.Mapper do
   end
 
   defp get_link_from_db(shortcode) do
-    alias Phlink.Link
-    alias Phlink.Repo
-    import Ecto.Query, only: [from: 2]
-
-    Repo.one(from l in Link, where: l.shortcode == ^shortcode)
+    Link.from_shortcode(shortcode)
   end
-
 end

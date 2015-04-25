@@ -1,7 +1,5 @@
 defmodule Phlink.Link do
   use Phlink.Web, :model
-  alias Phlink.Repo
-  alias Phlink.User
 
   schema "links" do
     field :url, :string
@@ -33,6 +31,18 @@ defmodule Phlink.Link do
     changeset
     |> validate_unique(:shortcode, on: Repo)
     |> validate_url(:url)
+  end
+
+  def from_url(url) do
+    Repo.one(from l in Link, where: l.url == ^url)
+  end
+
+  def from_shortcode(shortcode) do
+    Repo.one(from l in Link, where: l.shortcode == ^shortcode)
+  end
+
+  def count do
+    Repo.one(from(l in Link, select: count(l.shortcode)))
   end
 
   defp validate_url(changeset, field) do

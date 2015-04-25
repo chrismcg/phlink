@@ -25,6 +25,7 @@ defmodule Phlink.Web do
       import Ecto.Query, only: [from: 2]
 
       alias Phlink.User
+      alias Phlink.Link
     end
   end
 
@@ -39,6 +40,10 @@ defmodule Phlink.Web do
 
       # Import URL helpers from the router
       import Phlink.Router.Helpers
+
+      alias Phlink.User
+      alias Phlink.Link
+      alias Phlink.Cache
     end
   end
 
