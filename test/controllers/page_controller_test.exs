@@ -17,6 +17,6 @@ defmodule Phlink.PageControllerTest do
     |> assign(:current_user, @current_user)
     |> get("/")
 
-    assert {"location", "/shorten/new"} = List.keyfind(conn.resp_headers, "location", 0)
+    assert redirected_to(conn) == "/shorten/new"
   end
 end

@@ -14,8 +14,7 @@ defmodule Phlink.LinkControllerTest do
 
   test "GET /shorten/new redirects if user isn't logged in" do
     conn = get conn(), "/shorten/new"
-    assert html_response(conn, 302)
-    assert {"location", "/"} = List.keyfind(conn.resp_headers, "location", 0)
+    assert redirected_to(conn) == "/"
   end
 
   test "GET /shorten/new renders new link form" do
@@ -37,8 +36,7 @@ defmodule Phlink.LinkControllerTest do
     link = Repo.one!(from l in Link, select: l, preload: [:user])
     assert link.shortcode == @expected_shortcode
     assert link.user_id == user.id
-    assert html_response(conn, 302)
-    assert Enum.any?(conn.resp_headers, &(&1 == {"location", "/shorten/#{link.id}"}))
+    assert redirected_to(conn) == "/shorten/#{link.id}"
   end
 
   test "POST /shorten handles when the url has already been shortened" do
@@ -47,8 +45,7 @@ defmodule Phlink.LinkControllerTest do
     |> assign(:current_user, @current_user)
     |> post("/shorten", %{"link": %{"url": @model.url}})
     assert link_count == 1
-    assert html_response(conn, 302)
-    assert Enum.any?(conn.resp_headers, &(&1 == {"location", "/shorten/#{link.id}"}))
+    assert redirected_to(conn) == "/shorten/#{link.id}"
   end
 
   test "POST /shorten errors if the url is blank" do
@@ -81,16 +78,14 @@ defmodule Phlink.LinkControllerTest do
   test "GET /:shortcode redirects to url matching shortcode" do
     Repo.insert(@model)
     conn = get conn(), @model.shortcode
-    assert html_response(conn, 301)
-    assert Enum.any?(conn.resp_headers, &(&1 == {"location", @model.url}))
+    assert redirected_to(conn, 301) == @model.url
   end
 
   test "GET /:shortcode reads the url from the cache if it's there" do
     Repo.insert(@model)
     Cache.warm(@model.shortcode)
     conn = get conn(), @model.shortcode
-    assert html_response(conn, 301)
-    assert Enum.any?(conn.resp_headers, &(&1 == {"location", @model.url}))
+    assert redirected_to(conn, 301) == @model.url
   end
 
   test "GET /:shortcode handles the cache being expired" do
@@ -98,8 +93,7 @@ defmodule Phlink.LinkControllerTest do
     pid = Cache.warm(@model.shortcode)
     send(pid, :timeout)
     conn = get conn(), @model.shortcode
-    assert html_response(conn, 301)
-    assert Enum.any?(conn.resp_headers, &(&1 == {"location", @model.url}))
+    assert redirected_to(conn, 301) == @model.url
   end
 
   test "GET /:shortcode 404s if shortcode not present" do
