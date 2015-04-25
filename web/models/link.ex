@@ -39,7 +39,7 @@ defmodule Phlink.Link do
     validate_change changeset, field, fn(field, url) ->
       case :http_uri.parse(String.to_char_list(url)) do
         { :ok, _ } -> []
-        { :error, reason } -> [{field, "is not a url"}]
+        { :error, _ } -> [{field, "is not a url"}]
       end
     end
   end
