@@ -19,6 +19,12 @@ defmodule Phlink.Web do
   def model do
     quote do
       use Ecto.Model
+
+      alias Phlink.Repo
+      import Ecto.Model
+      import Ecto.Query, only: [from: 2]
+
+      alias Phlink.User
     end
   end
 

@@ -12,7 +12,7 @@ defmodule Phlink.AuthController do
     github_user = GitHub.get_user(code)
     %{"name" => name, "id" => github_id, "avatar_url" => avatar_url} = github_user
 
-    user = Repo.one(from u in User, where: u.github_id == ^github_id)
+    user = User.from_github_id(github_id)
 
     conn
     |> handle_callback(user, name, github_id, avatar_url, github_user)

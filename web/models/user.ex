@@ -23,4 +23,12 @@ defmodule Phlink.User do
     model
     |> cast(params, @required_fields, @optional_fields)
   end
+
+  def from_github_id(github_id) do
+    Repo.one(from u in User, where: u.github_id == ^github_id)
+  end
+
+  def count do
+    Repo.one(from(u in User, select: count(u.id)))
+  end
 end
