@@ -1,4 +1,9 @@
 defmodule GitHub do
+  @moduledoc """
+  An OAuth2 strategy for GitHub.
+
+  Taken from https://github.com/scrogson/oauth2_example/blob/master/web/oauth/git_hub.ex
+  """
   use OAuth2.Strategy
   import Phlink.Router.Helpers
 
