@@ -8,15 +8,15 @@ defmodule Phlink.PageControllerTest do
   }
 
   test "GET / displays homepage when user not logged in" do
-    conn = get conn(), "/"
-    assert html_response(conn, 200)
+    assert conn()
+      |> get("/")
+      |> html_response(200)
   end
 
   test "GET / redirects to new url page when user logged in" do
-    conn = conn()
-    |> assign(:current_user, @current_user)
-    |> get("/")
-
-    assert redirected_to(conn) == "/shorten/new"
+    assert conn()
+      |> assign(:current_user, @current_user)
+      |> get("/")
+      |> redirected_to() == "/shorten/new"
   end
 end

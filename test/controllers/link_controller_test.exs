@@ -13,15 +13,16 @@ defmodule Phlink.LinkControllerTest do
   }
 
   test "GET /shorten/new redirects if user isn't logged in" do
-    conn = get conn(), "/shorten/new"
-    assert redirected_to(conn) == "/"
+    assert conn()
+      |> get("/shorten/new")
+      |> redirected_to() == "/"
   end
 
   test "GET /shorten/new renders new link form" do
-    conn = conn()
-    |> assign(:current_user, @current_user)
-    |> get("/shorten/new")
-    assert html_response(conn, 200) =~ ~r/<input.*?name="link\[url\]"/
+    assert conn()
+      |> assign(:current_user, @current_user)
+      |> get("/shorten/new")
+      |> html_response(200) =~ ~r/<input.*?name="link\[url\]"/
   end
 
   test "POST /shorten creates a shortened url and redirects" do
@@ -36,34 +37,35 @@ defmodule Phlink.LinkControllerTest do
     link = Repo.one!(from l in Link, select: l, preload: [:user])
     assert link.shortcode == @expected_shortcode
     assert link.user_id == user.id
+
     assert redirected_to(conn) == "/shorten/#{link.id}"
   end
 
   test "POST /shorten handles when the url has already been shortened" do
     link = Repo.insert(@model)
-    conn = conn()
-    |> assign(:current_user, @current_user)
-    |> post("/shorten", %{"link": %{"url": @model.url}})
+    assert conn()
+      |> assign(:current_user, @current_user)
+      |> post("/shorten", %{"link": %{"url": @model.url}})
+      |> redirected_to() == "/shorten/#{link.id}"
     assert link_count == 1
-    assert redirected_to(conn) == "/shorten/#{link.id}"
   end
 
   test "POST /shorten errors if the url is blank" do
     assert link_count == 0
-    conn = conn()
-    |> assign(:current_user, @current_user)
-    |> post("/shorten", %{"link": %{"url": ""}})
+    assert conn()
+      |> assign(:current_user, @current_user)
+      |> post("/shorten", %{"link": %{"url": ""}})
+      |> html_response(200) =~ "Url can&#39;t be blank"
     assert link_count == 0
-    assert html_response(conn, 200) =~ "Url can&#39;t be blank"
   end
 
   test "POST /shorten errors if the url isn't a valid url" do
     assert link_count == 0
-    conn = conn()
-    |> assign(:current_user, @current_user)
-    |> post("/shorten", %{"link": %{"url": "not a url"}})
+    assert conn()
+      |> assign(:current_user, @current_user)
+      |> post("/shorten", %{"link": %{"url": "not a url"}})
+      |> html_response(200) =~ "Url is not a url"
     assert link_count == 0
-    assert html_response(conn, 200) =~ "Url is not a url"
   end
 
   test "GET /shorten/:id displays link and short link" do
@@ -77,28 +79,32 @@ defmodule Phlink.LinkControllerTest do
 
   test "GET /:shortcode redirects to url matching shortcode" do
     Repo.insert(@model)
-    conn = get conn(), @model.shortcode
-    assert redirected_to(conn, 301) == @model.url
+    assert conn()
+      |> get(@model.shortcode)
+      |> redirected_to(301) == @model.url
   end
 
   test "GET /:shortcode reads the url from the cache if it's there" do
     Repo.insert(@model)
     Cache.warm(@model.shortcode)
-    conn = get conn(), @model.shortcode
-    assert redirected_to(conn, 301) == @model.url
+    assert conn()
+      |> get(@model.shortcode)
+      |> redirected_to(301) == @model.url
   end
 
   test "GET /:shortcode handles the cache being expired" do
     Repo.insert(@model)
     pid = Cache.warm(@model.shortcode)
     send(pid, :timeout)
-    conn = get conn(), @model.shortcode
-    assert redirected_to(conn, 301) == @model.url
+    assert conn()
+      |> get(@model.shortcode)
+      |> redirected_to(301) == @model.url
   end
 
   test "GET /:shortcode 404s if shortcode not present" do
-    conn = get conn(), "/notthere"
-    assert html_response(conn, 404)
+    assert conn()
+      |> get("/notthere")
+      |> html_response(404)
   end
 
   defp link_count do

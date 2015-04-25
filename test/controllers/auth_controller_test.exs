@@ -11,15 +11,17 @@ defmodule Phlink.AuthControllerTest do
   }
 
   test "GET /auth redirects to github" do
-    conn = get conn(), "/auth"
-    assert redirected_to(conn) == GitHub.authorize_url!
+    assert conn()
+      |> get("/auth")
+      |> redirected_to() == GitHub.authorize_url!
   end
 
   test "GET /auth/callback?code=<code> puts the current user and access token in the session" do
     with_mock GitHub, [get_token!: fn(code: "test") -> @token end] do
       with_mock OAuth2.AccessToken, [get!: fn(@token , "/user") -> @github_user end] do
-        conn = get conn(), "/auth/callback?code=test"
-        assert redirected_to(conn) == "/"
+        assert conn()
+          |> get("/auth/callback?code=test")
+          |> redirected_to() == "/"
       end
     end
   end
@@ -28,7 +30,8 @@ defmodule Phlink.AuthControllerTest do
     assert user_count == 0
     with_mock GitHub, [get_token!: fn(code: "test") -> @token end] do
       with_mock OAuth2.AccessToken, [get!: fn(@token , "/user") -> @github_user end] do
-        conn = get conn(), "/auth/callback?code=test"
+        conn()
+          |> get("/auth/callback?code=test")
       end
     end
     assert user_count == 1
@@ -42,8 +45,10 @@ defmodule Phlink.AuthControllerTest do
     user = Repo.insert(%User{name: "Test User", github_id: 212, github_user: @github_user})
     with_mock GitHub, [get_token!: fn(code: "test") -> @token end] do
       with_mock OAuth2.AccessToken, [get!: fn(@token , "/user") -> @github_user end] do
-        conn = get conn(), "/auth/callback?code=test"
-        assert get_session(conn, :current_user).id == user.id
+        current_user = conn()
+          |> get("/auth/callback?code=test")
+          |> get_session(:current_user)
+        assert current_user.id == user.id
       end
     end
   end
