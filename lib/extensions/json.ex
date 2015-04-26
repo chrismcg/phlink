@@ -1,4 +1,5 @@
 defmodule Extensions.JSON do
+  @moduledoc false
   alias Postgrex.TypeInfo
 
   @behaviour Postgrex.Extension

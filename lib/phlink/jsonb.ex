@@ -1,4 +1,5 @@
 defmodule Phlink.JSONB do
+  @moduledoc false
   @behaviour Ecto.Type
 
   def type, do: :jsonb
