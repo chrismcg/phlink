@@ -75,16 +75,12 @@ defmodule Phlink.Cache.Mapper do
   end
 
   defp get_and_cache(shortcode) do
-    case get_link_from_db(shortcode) do
+    case Link.from_shortcode(shortcode) do
       nil -> { nil, nil }
       link ->
         {:ok, pid} = Cache.UrlCacheSupervisor.start_child(link.url)
         Process.monitor(pid)
         { pid, link.url }
     end
-  end
-
-  defp get_link_from_db(shortcode) do
-    Link.from_shortcode(shortcode)
   end
 end
