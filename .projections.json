@@ -1,0 +1,10 @@
+{
+  "web/*.ex": {
+    "alternate": "test/web/{}_test.exs",
+    "type": "source"
+  },
+  "test/web/*_test.exs": {
+    "alternate": "web/{}.ex",
+    "type": "test"
+  }
+}
