@@ -4,6 +4,7 @@ defmodule Phlink.Link do
   link.
   """
   use Phlink.Web, :model
+  alias Phlink.Shortcode
 
   schema "links" do
     field :url, :string
@@ -30,11 +31,7 @@ defmodule Phlink.Link do
     changeset = cast(model, params, @required_fields, @optional_fields)
     changeset = case get_field(changeset, :url) do
       nil -> changeset
-      url ->
-        shortcode = UUID.uuid5(:url, url, :hex)
-                    |> :erlang.phash2
-                    |> Integer.to_string(16)
-        change(changeset, %{shortcode: shortcode})
+      url -> change(changeset, %{shortcode: Shortcode.generate(url)})
     end
     changeset
     |> validate_unique(:shortcode, on: Repo)

@@ -4,7 +4,7 @@ defmodule Phlink.LinkControllerTest do
   alias Phlink.User
 
   @url "http://example.com"
-  @expected_shortcode UUID.uuid5(:url, @url, :hex) |> :erlang.phash2 |> Integer.to_string(16)
+  @expected_shortcode Phlink.Shortcode.generate(@url)
   @model %Link{url: @url, shortcode: @expected_shortcode}
   @current_user %{
     id: 212,
