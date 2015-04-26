@@ -1,13 +1,24 @@
 defmodule Phlink.AuthController do
+  @moduledoc """
+  Handle OAuth to GitHub
+  """
   use Phlink.Web, :controller
   alias Phlink.User
 
   plug :action
 
+  @doc """
+  Take the user to github to authorize phl.ink and login
+  """
   def index(conn, _params) do
     redirect conn, external: GitHub.authorize_url!
   end
 
+  @doc """
+  Try and find the user by thier GitHub id. Creates a new user record if we
+  haven't seen them before. Add user details to the session once they're
+  logged in.
+  """
   def callback(conn, %{"code" => code}) do
     github_user = GitHub.get_user(code)
     %{"name" => name, "id" => github_id, "avatar_url" => avatar_url} = github_user

@@ -21,6 +21,9 @@ defmodule GitHub do
     ])
   end
 
+  @doc """
+  URL for GitHub OAuth with minimum permissions
+  """
   def authorize_url!(params \\ []) do
     new()
     |> put_param(:scope, "")
@@ -31,6 +34,9 @@ defmodule GitHub do
     OAuth2.Client.get_token!(new(), params, headers)
   end
 
+  @doc """
+  Fetch the GitHub user details given an authorization code
+  """
   def get_user(code) do
     GitHub.get_token!(code: code)
     |> OAuth2.AccessToken.get!("/user")

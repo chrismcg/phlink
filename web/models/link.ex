@@ -1,4 +1,8 @@
 defmodule Phlink.Link do
+  @moduledoc """
+  Stores the url and it's shortcode. Associated to the user that created the
+  link.
+  """
   use Phlink.Web, :model
 
   schema "links" do
@@ -17,6 +21,10 @@ defmodule Phlink.Link do
 
   If `params` are nil, an invalid changeset is returned
   with no validation performed.
+
+  Generates the shortcode for the url. As the shortcode generation will create
+  the same shortcode for a given url there's no need to check if we're creating
+  or updating the record.
   """
   def changeset(model, params \\ nil) do
     changeset = cast(model, params, @required_fields, @optional_fields)
@@ -33,14 +41,23 @@ defmodule Phlink.Link do
     |> validate_url(:url)
   end
 
+  @doc """
+  Return the link that matches the url
+  """
   def from_url(url) do
     Repo.one(from l in Link, where: l.url == ^url)
   end
 
+  @doc """
+  Return the link that matches the shortcode
+  """
   def from_shortcode(shortcode) do
     Repo.one(from l in Link, where: l.shortcode == ^shortcode)
   end
 
+  @doc """
+  Return total number of links in the database
+  """
   def count do
     Repo.one(from(l in Link, select: count(l.shortcode)))
   end

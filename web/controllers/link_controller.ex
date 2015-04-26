@@ -1,14 +1,34 @@
 defmodule Phlink.LinkController do
+  @moduledoc """
+  Handles creating shortlinks and redirecting to the original URL.
+  Requires that the user is logged in.
+  """
   use Phlink.Web, :controller
 
   plug :scrub_params, "link" when action in [:create]
   plug :action
 
+  @doc """
+  Display form for user to enter a URL to shorten
+  """
   def new(conn, _params) do
     changeset = Link.changeset(%Link{})
     render conn, "new.html", changeset: changeset
   end
 
+  @doc """
+  Create a shortened URL.
+
+  If there are errors the form will be redisplayed.
+
+  If the url has already been shortened it just shows the existing record.
+
+  If all is good and the url hasn't been shortened yet it generates the
+  shortcode and also adds the current user to the record.
+
+  Either success path will warm the cache with the shortcode on the assumption
+  it will be used soon.
+  """
   def create(conn, %{"link" => link_params}) do
     # try to find an existing url
     link = case link_params["url"] do
@@ -40,11 +60,21 @@ defmodule Phlink.LinkController do
     |> redirect(to: link_path(conn, :show, link.id))
   end
 
+  @doc """
+  Display the shortlink and the target url
+  """
   def show(conn, %{"id" => id}) do
     link = Repo.get(Link, id)
     render conn, "show.html", link: link
   end
 
+  @doc """
+  Redirect to the target url.
+
+  If the shortcode wasn't in the cache then add it.
+
+  If the shortcode isn't in the database render a 404.
+  """
   def unshorten(conn, %{"shortcode" => shortcode}) do
     case Phlink.Cache.get_url(shortcode) do
       nil ->
