@@ -1,4 +1,22 @@
 defmodule Phlink.Cache.Mapper do
+  @moduledoc """
+  Maps the shortcode to the pid of the process that's caching the URL to
+  redirect to.
+
+  Creates a new cache process if it can't find one for the shortcode in its
+  internal state.
+
+  The new cache process is monitored so when it expires we can remove it from
+  the map. There's a potential race condition with this where the notification
+  that the cache process has died could arrive after another message to look
+  up the shortcode that just expired so the internal state has a stale mapping.
+
+  This could be solved by checking `Process.alive?` for the pid and calling
+  `cache_and_update_map` if it was false. `cache_and_update_map` would have to
+  be improved to remove the stale pid from the internal state in this case. The
+  `handle_info(:'DOWN'...` would also need to do the right thing if the pid
+  wasn't in the internal state anymore.
+  """
   use GenServer
   alias Phlink.Cache
   alias Phlink.Link
@@ -15,9 +33,11 @@ defmodule Phlink.Cache.Mapper do
 
   def handle_call({:get_url, shortcode}, _from, state) do
     case cache_pid(shortcode, state) do
+      # not cached so cache
       nil ->
         {_pid, url, state} = cache_and_update_map(shortcode, state)
         {:reply, url, state}
+      # already cached so get url from cache process and return
       pid ->
         url = Cache.UrlCache.url(pid)
         {:reply, url, state}
