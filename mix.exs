@@ -9,6 +9,9 @@ defmodule Phlink.Mixfile do
      compilers: [:phoenix] ++ Mix.compilers,
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+     name: "phl.ink",
+     source_url: "https://github.com/chrismcg/phlink",
+     homepage_url: "http://phl.ink",
      deps: deps]
   end
 
@@ -49,6 +52,8 @@ defmodule Phlink.Mixfile do
      {:uuid, "~> 1.0" },
      {:oauth2, github: "scrogson/oauth2"},
      {:dotenv, "~> 0.0.4"},
+     {:earmark, "~> 0.1", only: :dev},
+     {:ex_doc, "~> 0.7", only: :dev},
      {:mock, "~> 0.1.0", only: :test}
    ]
   end
