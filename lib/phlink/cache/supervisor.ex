@@ -11,6 +11,6 @@ defmodule Phlink.Cache.Supervisor do
       supervisor(Phlink.Cache.UrlCacheSupervisor, [])
     ]
 
-    supervise(children, strategy: :one_for_all)
+    supervise(children, strategy: :rest_for_one)
   end
 end
