@@ -39,7 +39,7 @@ defmodule Phlink.AuthController do
     })
 
     if changeset.valid? do
-      user = Repo.insert(changeset)
+      user = Repo.insert!(changeset)
       put_user_in_session(conn, user)
     else
       conn

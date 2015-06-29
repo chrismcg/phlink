@@ -42,7 +42,7 @@ defmodule Phlink.LinkControllerTest do
   end
 
   test "POST /shorten handles when the url has already been shortened" do
-    link = Repo.insert(@model)
+    link = Repo.insert!(@model)
     assert conn()
     |> assign(:current_user, @current_user)
     |> post("/shorten", %{"link": %{"url": @model.url}})
@@ -69,7 +69,7 @@ defmodule Phlink.LinkControllerTest do
   end
 
   test "GET /shorten/:id displays link and short link" do
-    link = Repo.insert(@model)
+    link = Repo.insert!(@model)
     conn = conn()
     |> assign(:current_user, @current_user)
     |> get("/shorten/#{link.id}")
@@ -78,14 +78,14 @@ defmodule Phlink.LinkControllerTest do
   end
 
   test "GET /:shortcode redirects to url matching shortcode" do
-    Repo.insert(@model)
+    Repo.insert!(@model)
     assert conn()
     |> get(@model.shortcode)
     |> redirected_to(301) == @model.url
   end
 
   test "GET /:shortcode reads the url from the cache if it's there" do
-    Repo.insert(@model)
+    Repo.insert!(@model)
     Cache.warm(@model.shortcode)
     assert conn()
     |> get(@model.shortcode)
@@ -93,7 +93,7 @@ defmodule Phlink.LinkControllerTest do
   end
 
   test "GET /:shortcode handles the cache being expired" do
-    Repo.insert(@model)
+    Repo.insert!(@model)
     pid = Cache.warm(@model.shortcode)
     send(pid, :timeout)
     assert conn()
@@ -114,6 +114,6 @@ defmodule Phlink.LinkControllerTest do
         avatar_url: "https://avatars.githubusercontent.com/u/212?v=3",
       }
     }
-    Repo.insert(user)
+    Repo.insert!(user)
   end
 end

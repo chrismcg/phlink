@@ -44,7 +44,7 @@ defmodule Phlink.LinkController do
     link_params = Dict.merge(link_params, %{"user_id" => conn.assigns[:current_user].id})
     changeset = Link.changeset(%Link{}, link_params)
     if changeset.valid? do
-      link = Repo.insert(changeset)
+      link = Repo.insert!(changeset)
       Cache.warm(link.shortcode)
 
       conn

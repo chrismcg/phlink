@@ -46,7 +46,7 @@ defmodule Phlink.AuthControllerTest do
   end
 
   test "GET /auth/callback?code=<code> uses the existing user if their github id is already in the db" do
-    user = Repo.insert(%User{name: "Test User", github_id: 212, github_user: @github_user})
+    user = Repo.insert!(%User{name: "Test User", github_id: 212, github_user: @github_user})
     with_mock GitHub, [get_user: fn("test") -> @github_user end] do
       current_user = conn()
       |> get("/auth/callback?code=test")
