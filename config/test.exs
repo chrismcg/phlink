@@ -17,5 +17,4 @@ config :phlink, Phlink.Repo,
   password: "postgres",
   database: "phlink_test",
   size: 1,
-  max_overflow: false,
   extensions: [{Extensions.JSON, library: Poison}]

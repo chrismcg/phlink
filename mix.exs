@@ -29,9 +29,11 @@ defmodule Phlink.Mixfile do
   defp app_list(_), do: app_list
   defp app_list, do: [
     :phoenix,
+    :phoenix_html,
     :cowboy,
     :logger,
-    :ecto,
+    :phoenix_ecto,
+    :postgrex,
     :hackney
   ]
 
@@ -44,10 +46,11 @@ defmodule Phlink.Mixfile do
   # Type `mix help deps` for examples and options
   defp deps do
     [
-     {:phoenix, github: "phoenixframework/phoenix", override: true},
+     {:phoenix, "~> 0.13.1"},
      {:phoenix_ecto, "~> 0.5"},
+     {:phoenix_html, "~> 1.0"},
      {:postgrex, ">= 0.0.0"},
-     {:phoenix_live_reload, "~> 0.3"},
+     {:phoenix_live_reload, "~> 0.4", only: :dev},
      {:cowboy, "~> 1.0"},
      {:uuid, "~> 1.0" },
      {:oauth2, github: "scrogson/oauth2"},

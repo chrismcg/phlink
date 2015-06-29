@@ -1,5 +1,5 @@
 defmodule Phlink.Router do
-  use Phoenix.Router
+  use Phlink.Web, :router
 
   pipeline :browser do
     plug :accepts, ["html"]

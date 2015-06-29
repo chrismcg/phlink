@@ -8,7 +8,7 @@ use Mix.Config
 # Configures the endpoint
 config :phlink, Phlink.Endpoint,
   url: [host: "localhost"],
-  root: Path.expand("..", __DIR__),
+  root: Path.dirname(__DIR__),
   secret_key_base: "HOHPGn11S+1dDx+zMcOye6TFICJKxTEwQRTCfHLDmXrxt2DLanXQdvEIwyxIESFw",
   debug_errors: false,
   pubsub: [name: Phlink.PubSub,
@@ -17,7 +17,7 @@ config :phlink, Phlink.Endpoint,
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
-  metadata: [:request_id]
+  metadata: [:requestid]
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
