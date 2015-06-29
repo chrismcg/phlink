@@ -27,7 +27,7 @@ defmodule Phlink.Link do
   the same shortcode for a given url there's no need to check if we're creating
   or updating the record.
   """
-  def changeset(model, params \\ nil) do
+  def changeset(model, params \\ :empty) do
     changeset = cast(model, params, @required_fields, @optional_fields)
     changeset = case get_field(changeset, :url) do
       nil -> changeset
