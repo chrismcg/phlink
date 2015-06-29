@@ -6,7 +6,7 @@ defmodule Phlink.Endpoint do
   # You should set gzip to true if you are running phoenix.digest
   # when deploying your static files in production.
  plug Plug.Static,
-    at: "/", from: :phlink, gzip: false,
+    at: "/", from: :phlink, gzip: true,
     only: ~w(css images js favicon.ico robots.txt)
 
   # Code reloading can be explicitly enabled under the
