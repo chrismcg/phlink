@@ -1,11 +1,11 @@
 defmodule Phlink.Endpoint do
   use Phoenix.Endpoint, otp_app: :phlink
 
-  # Serve at "/" the given assets from "priv/static" directory
+  # Serve at "/" the static files from "priv/static" directory
   #
   # You should set gzip to true if you are running phoenix.digest
   # when deploying your static files in production.
- plug Plug.Static,
+  plug Plug.Static,
     at: "/", from: :phlink, gzip: true,
     only: ~w(css images js favicon.ico robots.txt)
 
@@ -16,6 +16,7 @@ defmodule Phlink.Endpoint do
     plug Phoenix.CodeReloader
   end
 
+  plug Plug.RequestId
   plug Plug.Logger
 
   plug Plug.Parsers,

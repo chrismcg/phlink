@@ -10,14 +10,14 @@ config :phlink, Phlink.Endpoint,
   url: [host: "localhost"],
   root: Path.dirname(__DIR__),
   secret_key_base: "HOHPGn11S+1dDx+zMcOye6TFICJKxTEwQRTCfHLDmXrxt2DLanXQdvEIwyxIESFw",
-  debug_errors: false,
+  render_errors: [default_format: "html"],
   pubsub: [name: Phlink.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
-  metadata: [:requestid]
+  metadata: [:request_id]
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

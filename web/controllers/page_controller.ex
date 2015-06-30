@@ -4,8 +4,6 @@ defmodule Phlink.PageController do
   """
   use Phlink.Web, :controller
 
-  plug :action
-
   @doc """
   If the user isn't logged in then display a login link.
 

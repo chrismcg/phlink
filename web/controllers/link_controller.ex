@@ -6,7 +6,6 @@ defmodule Phlink.LinkController do
   use Phlink.Web, :controller
 
   plug :scrub_params, "link" when action in [:create]
-  plug :action
 
   @doc """
   Display form for user to enter a URL to shorten

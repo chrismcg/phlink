@@ -5,8 +5,6 @@ defmodule Phlink.AuthController do
   use Phlink.Web, :controller
   alias Phlink.User
 
-  plug :action
-
   @doc """
   Take the user to github to authorize phl.ink and login
   """

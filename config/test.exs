@@ -12,9 +12,9 @@ config :logger, level: :warn
 # Configure your database
 config :phlink, Phlink.Repo,
   adapter: Ecto.Adapters.Postgres,
-  pool: Ecto.Adapters.SQL.Sandbox,
   username: "postgres",
   password: "postgres",
   database: "phlink_test",
+  pool: Ecto.Adapters.SQL.Sandbox, # Use a sandbox for transactional testing
   size: 1,
   extensions: [{Extensions.JSON, library: Poison}]
