@@ -3,7 +3,7 @@ defmodule Phlink.Endpoint do
 
   socket "/socket", Phlink.UserSocket
 
-  # Serve at "/" the static files from "priv/static" directory
+  # Serve at "/" the static files from "priv/static" directory.
   #
   # You should set gzip to true if you are running phoenix.digest
   # when deploying your static files in production.
@@ -33,8 +33,7 @@ defmodule Phlink.Endpoint do
   plug Plug.Session,
     store: :cookie,
     key: "_phlink_key",
-    signing_salt: "U9/UNcn1",
-    encryption_salt: "zW6iwkT7"
+    signing_salt: "U9/UNcn1"
 
   plug Phlink.Router
 end

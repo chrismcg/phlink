@@ -46,11 +46,11 @@ defmodule Phlink.Mixfile do
   # Type `mix help deps` for examples and options
   defp deps do
     [
-     {:phoenix, "~> 0.15"},
-     {:phoenix_ecto, "~> 0.8"},
-     {:phoenix_html, "~> 1.4"},
+     {:phoenix, "~> 0.16"},
+     {:phoenix_ecto, "~> 0.9"},
+     {:phoenix_html, "~> 2.0"},
      {:postgrex, ">= 0.0.0"},
-     {:phoenix_live_reload, "~> 0.5", only: :dev},
+     {:phoenix_live_reload, "~> 0.6", only: :dev},
      {:cowboy, "~> 1.0"},
      {:uuid, "~> 1.0" },
      {:oauth2, github: "scrogson/oauth2"},
