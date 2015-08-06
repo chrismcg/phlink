@@ -10,5 +10,4 @@ config :phlink, Phlink.Endpoint,
 config :phlink, Phlink.Repo,
   adapter: Ecto.Adapters.Postgres,
   pool_size: 20, # The amount of database connections in the pool
-  extensions: [{Extensions.JSON, library: Poison}],
   url: {:system, "DATABASE_URL"}

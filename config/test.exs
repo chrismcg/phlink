@@ -15,5 +15,4 @@ config :phlink, Phlink.Repo,
   username: "postgres",
   password: "postgres",
   database: "phlink_test",
-  pool: Ecto.Adapters.SQL.Sandbox,
-  extensions: [{Extensions.JSON, library: Poison}]
+  pool: Ecto.Adapters.SQL.Sandbox

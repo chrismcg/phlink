@@ -5,7 +5,7 @@ defmodule Phlink.Repo.Migrations.CreateUser do
     create table(:users) do
       add :name, :string
       add :github_id, :integer
-      add :github_user, :jsonb
+      add :github_user, :map
 
       timestamps
     end

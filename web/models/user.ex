@@ -8,7 +8,7 @@ defmodule Phlink.User do
     field :name, :string
     field :github_id, :integer
     field :avatar_url, :string
-    field :github_user, Phlink.JSONB
+    field :github_user, :map
 
     timestamps
   end
