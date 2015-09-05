@@ -9,6 +9,9 @@ config :phlink, Phlink.Endpoint,
 # Print only warnings and errors during test
 config :logger, level: :warn
 
+# Set a higher stacktrace during test
+config :phoenix, :stacktrace_depth, 20
+
 # Configure your database
 config :phlink, Phlink.Repo,
   adapter: Ecto.Adapters.Postgres,

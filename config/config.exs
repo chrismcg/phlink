@@ -10,7 +10,7 @@ config :phlink, Phlink.Endpoint,
   url: [host: "localhost"],
   root: Path.dirname(__DIR__),
   secret_key_base: "HOHPGn11S+1dDx+zMcOye6TFICJKxTEwQRTCfHLDmXrxt2DLanXQdvEIwyxIESFw",
-  render_errors: [default_format: "html"],
+  render_errors: [accepts: ~w(html json)],
   pubsub: [name: Phlink.PubSub,
            adapter: Phoenix.PubSub.PG2]
 

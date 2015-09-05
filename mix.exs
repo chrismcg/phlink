@@ -9,6 +9,7 @@ defmodule Phlink.Mixfile do
      compilers: [:phoenix] ++ Mix.compilers,
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+     test_coverage: [tool: ExCoveralls],
      name: "phl.ink",
      source_url: "https://github.com/chrismcg/phlink",
      homepage_url: "http://phl.ink",
@@ -46,18 +47,20 @@ defmodule Phlink.Mixfile do
   # Type `mix help deps` for examples and options
   defp deps do
     [
-     {:phoenix, "~> 0.16"},
-     {:phoenix_ecto, "~> 1.0"},
-     {:phoenix_html, "~> 2.0"},
+     {:phoenix, "~> 0.17.1"},
+     {:phoenix_ecto, "~> 1.1"},
+     {:phoenix_html, "~> 2.1"},
      {:postgrex, ">= 0.0.0"},
-     {:phoenix_live_reload, "~> 0.6", only: :dev},
+     {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:cowboy, "~> 1.0"},
-     {:uuid, "~> 1.0" },
-     {:oauth2, github: "scrogson/oauth2"},
+     {:uuid, "~> 1.0"},
+     {:oauth2, "~> 0.3"},
      {:dotenv, "~> 0.0.4"},
      {:earmark, "~> 0.1", only: :dev},
      {:ex_doc, "~> 0.7", only: :dev},
-     {:mock, "~> 0.1.0", only: :test}
+     {:mock, "~> 0.1.0", only: :test},
+     {:websocket_client, git: "https://github.com/jeremyong/websocket_client.git", only: :test},
+     {:excoveralls, "~> 0.3.11", only: :test}
    ]
   end
 end

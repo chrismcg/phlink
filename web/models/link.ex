@@ -34,7 +34,7 @@ defmodule Phlink.Link do
       url -> change(changeset, %{shortcode: Shortcode.generate(url)})
     end
     changeset
-    |> validate_unique(:shortcode, on: Repo)
+    |> unique_constraint(:shortcode)
     |> validate_url(:url)
   end
 

@@ -22,7 +22,7 @@ defmodule Phlink.Web do
 
       alias Phlink.Repo
       import Ecto.Model
-      import Ecto.Query, only: [from: 2]
+      import Ecto.Query, only: [from: 1, from: 2]
 
       alias Phlink.User
       alias Phlink.Link
@@ -35,7 +35,7 @@ defmodule Phlink.Web do
 
       alias Phlink.Repo
       import Ecto.Model
-      import Ecto.Query, only: [from: 2]
+      import Ecto.Query, only: [from: 1, from: 2]
 
       import Phlink.Router.Helpers
 
@@ -71,7 +71,7 @@ defmodule Phlink.Web do
 
       alias Phlink.Repo
       import Ecto.Model
-      import Ecto.Query, only: [from: 2]
+      import Ecto.Query, only: [from: 1, from: 2]
 
     end
   end
