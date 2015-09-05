@@ -38,4 +38,5 @@ config :phlink, Phlink.Repo,
   username: "postgres",
   password: "postgres",
   database: "phlink_dev",
+  hostname: "localhost",
   pool_size: 10
