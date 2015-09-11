@@ -9,7 +9,7 @@ defmodule Phlink.AuthController do
   Take the user to github to authorize phl.ink and login
   """
   def index(conn, _params) do
-    redirect conn, external: GitHub.authorize_url!
+    redirect conn, external: github.authorize_url!
   end
 
   @doc """
@@ -18,7 +18,7 @@ defmodule Phlink.AuthController do
   logged in.
   """
   def callback(conn, %{"code" => code}) do
-    github_user = GitHub.get_user(code)
+    github_user = github.get_user(code)
     %{"name" => name, "id" => github_id, "avatar_url" => avatar_url} = github_user
 
     user = User.from_github_id(github_id)
@@ -55,5 +55,9 @@ defmodule Phlink.AuthController do
       name: user.name,
       avatar_url: user.avatar_url
     })
+  end
+
+  defp github do
+    Application.get_env :phlink, :github_api
   end
 end

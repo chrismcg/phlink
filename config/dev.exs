@@ -40,3 +40,5 @@ config :phlink, Phlink.Repo,
   database: "phlink_dev",
   hostname: "localhost",
   pool_size: 10
+
+config :phlink, :github_api, GitHub
