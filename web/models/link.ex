@@ -38,27 +38,6 @@ defmodule Phlink.Link do
     |> validate_url(:url)
   end
 
-  @doc """
-  Return the link that matches the url
-  """
-  def from_url(url) do
-    Repo.one(from l in Link, where: l.url == ^url)
-  end
-
-  @doc """
-  Return the link that matches the shortcode
-  """
-  def from_shortcode(shortcode) do
-    Repo.one(from l in Link, where: l.shortcode == ^shortcode)
-  end
-
-  @doc """
-  Return total number of links in the database
-  """
-  def count do
-    Repo.one(from(l in Link, select: count(l.shortcode)))
-  end
-
   defp validate_url(changeset, field) do
     validate_change changeset, field, fn(field, url) ->
       case :http_uri.parse(String.to_char_list(url)) do

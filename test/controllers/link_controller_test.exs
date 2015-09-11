@@ -1,7 +1,6 @@
 defmodule Phlink.LinkControllerTest do
   use Phlink.ConnCase
   alias Phlink.Cache
-  alias Phlink.User
 
   @url "http://example.com"
   @expected_shortcode Phlink.Shortcode.generate(@url)
@@ -27,13 +26,13 @@ defmodule Phlink.LinkControllerTest do
 
   test "POST /shorten creates a shortened url and redirects" do
     user = create_user
-    assert Link.count == 0
+    assert link_count == 0
 
     conn = conn()
     |> assign(:current_user, %{@current_user | id: user.id})
     |> post("/shorten", %{"link": %{"url": @model.url}})
 
-    assert Link.count == 1
+    assert link_count == 1
     link = Repo.one!(from l in Link, select: l, preload: [:user])
     assert link.shortcode == @expected_shortcode
     assert link.user_id == user.id
@@ -47,25 +46,25 @@ defmodule Phlink.LinkControllerTest do
     |> assign(:current_user, @current_user)
     |> post("/shorten", %{"link": %{"url": @model.url}})
     |> redirected_to() == "/shorten/#{link.id}"
-    assert Link.count == 1
+    assert link_count == 1
   end
 
   test "POST /shorten errors if the url is blank" do
-    assert Link.count == 0
+    assert link_count == 0
     assert conn()
     |> assign(:current_user, @current_user)
     |> post("/shorten", %{"link": %{"url": ""}})
     |> html_response(200) =~ "Url can&#39;t be blank"
-    assert Link.count == 0
+    assert link_count == 0
   end
 
   test "POST /shorten errors if the url isn't a valid url" do
-    assert Link.count == 0
+    assert link_count == 0
     assert conn()
     |> assign(:current_user, @current_user)
     |> post("/shorten", %{"link": %{"url": "not a url"}})
     |> html_response(200) =~ "Url is not a url"
-    assert Link.count == 0
+    assert link_count == 0
   end
 
   test "GET /shorten/:id displays link and short link" do
@@ -115,5 +114,9 @@ defmodule Phlink.LinkControllerTest do
       }
     }
     Repo.insert!(user)
+  end
+
+  defp link_count do
+    Repo.one(from(l in Link, select: count(l.shortcode)))
   end
 end

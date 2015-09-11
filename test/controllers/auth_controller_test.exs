@@ -20,9 +20,9 @@ defmodule Phlink.AuthControllerTest do
   end
 
   test "GET /auth/callback?code=<code> creates a user if they're not already in the db" do
-    assert User.count == 0
+    assert user_count == 0
     conn() |> get("/auth/callback?code=test")
-    assert User.count == 1
+    assert user_count == 1
 
     user = Repo.one!(from u in User, select: u)
 
@@ -38,5 +38,9 @@ defmodule Phlink.AuthControllerTest do
     |> get("/auth/callback?code=test")
     |> get_session(:current_user)
     assert current_user.id == user.id
+  end
+
+  defp user_count do
+    Repo.one(from(u in User, select: count(u.id)))
   end
 end

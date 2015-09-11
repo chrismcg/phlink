@@ -21,7 +21,7 @@ defmodule Phlink.AuthController do
     github_user = github.get_user(code)
     %{"name" => name, "id" => github_id, "avatar_url" => avatar_url} = github_user
 
-    user = User.from_github_id(github_id)
+    user = get_user_from_github_id(github_id)
 
     conn
     |> handle_callback(user, name, github_id, avatar_url, github_user)
@@ -59,5 +59,9 @@ defmodule Phlink.AuthController do
 
   defp github do
     Application.get_env :phlink, :github_api
+  end
+
+  defp get_user_from_github_id(github_id) do
+    Repo.one(from u in User, where: u.github_id == ^github_id)
   end
 end

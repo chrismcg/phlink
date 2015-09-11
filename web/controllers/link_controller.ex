@@ -32,7 +32,7 @@ defmodule Phlink.LinkController do
     # try to find an existing url
     link = case link_params["url"] do
       nil -> nil
-      url -> Link.from_url(url)
+      url -> link_from_url(url)
     end
 
     do_create(conn, link, link_params)
@@ -87,5 +87,9 @@ defmodule Phlink.LinkController do
         |> put_status(:moved_permanently)
         |> redirect(external: url)
     end
+  end
+
+  defp link_from_url(url) do
+    Repo.one(from l in Link, where: l.url == ^url)
   end
 end
