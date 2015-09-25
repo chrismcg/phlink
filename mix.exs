@@ -47,7 +47,7 @@ defmodule Phlink.Mixfile do
   # Type `mix help deps` for examples and options
   defp deps do
     [
-     {:phoenix, "~> 1.0.1"},
+     {:phoenix, "~> 1.0.2"},
      {:phoenix_ecto, "~> 1.1"},
      {:phoenix_html, "~> 2.1"},
      {:postgrex, ">= 0.0.0"},
@@ -55,9 +55,9 @@ defmodule Phlink.Mixfile do
      {:cowboy, "~> 1.0"},
      {:uuid, "~> 1.0"},
      {:oauth2, "~> 0.3"},
-     {:dotenv, "~> 0.0.4"},
+     {:dotenv, "~> 1.0.0"},
      {:earmark, "~> 0.1", only: :dev},
-     {:ex_doc, "~> 0.7", only: :dev},
+     {:ex_doc, "~> 0.10.0", only: :dev},
      {:websocket_client, git: "https://github.com/jeremyong/websocket_client.git", only: :test},
      {:excoveralls, "~> 0.3.11", only: :test}
    ]
