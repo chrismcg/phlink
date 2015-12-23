@@ -11,9 +11,6 @@ config :logger, level: :warn
 # uncomment below to get some more debug messages if required
 # config :logger, level: :warn, handle_otp_reports: true, handle_sasl_reports: true
 
-# Set a higher stacktrace during test
-config :phoenix, :stacktrace_depth, 20
-
 # Configure your database
 config :phlink, Phlink.Repo,
   adapter: Ecto.Adapters.Postgres,

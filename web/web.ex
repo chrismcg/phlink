@@ -20,6 +20,9 @@ defmodule Phlink.Web do
     quote do
       use Ecto.Model
 
+      import Ecto.Changeset
+      import Ecto.Query, only: [from: 1, from: 2]
+
       alias Phlink.User
       alias Phlink.Link
     end
@@ -68,7 +71,6 @@ defmodule Phlink.Web do
       alias Phlink.Repo
       import Ecto.Model
       import Ecto.Query, only: [from: 1, from: 2]
-
     end
   end
 

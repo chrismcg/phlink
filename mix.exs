@@ -18,6 +18,7 @@ defmodule Phlink.Mixfile do
      name: "phl.ink",
      source_url: "https://github.com/chrismcg/phlink",
      homepage_url: "http://phl.ink",
+     aliases: aliases,
      deps: deps]
   end
 
@@ -52,7 +53,7 @@ defmodule Phlink.Mixfile do
   # Type `mix help deps` for examples and options
   defp deps do
     [
-     {:phoenix, "~> 1.0.2"},
+     {:phoenix, "1.0.3"},
      {:phoenix_ecto, "~> 1.1"},
      {:phoenix_html, "~> 2.1"},
      {:postgrex, ">= 0.0.0"},
@@ -66,5 +67,16 @@ defmodule Phlink.Mixfile do
      {:websocket_client, git: "https://github.com/jeremyong/websocket_client.git", only: :test},
      {:excoveralls, "~> 0.4", only: :test}
    ]
+  end
+
+  # Aliases are shortcut or tasks specific to the current project.
+  # For example, to create, migrate and run the seeds file at once:
+  #
+  #     $ mix ecto.setup
+  #
+  # See the documentation for `Mix` for more info on aliases.
+  defp aliases do
+    ["ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
+     "ecto.reset": ["ecto.drop", "ecto.setup"]]
   end
 end
