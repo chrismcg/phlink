@@ -44,7 +44,7 @@
     </nav>
 
     <div class="container">
-      <%= @inner %>
+      <%= render @view_module, @view_template, assigns %>
 
       <div class="footer text-center">
         <p>Built with <a href="http://elixir-lang.org">Elixir</a> and <a href="http://phoenixframework.org">Phoenix</a></p>
