@@ -8,6 +8,8 @@ config :phlink, Phlink.Endpoint,
 
 # Print only warnings and errors during test
 config :logger, level: :warn
+# uncomment below to get some more debug messages if required
+# config :logger, level: :warn, handle_otp_reports: true, handle_sasl_reports: true
 
 # Set a higher stacktrace during test
 config :phoenix, :stacktrace_depth, 20

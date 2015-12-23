@@ -7,15 +7,8 @@ defmodule Phlink.Cache.Mapper do
   internal state.
 
   The new cache process is monitored so when it expires we can remove it from
-  the map. There's a potential race condition with this where the notification
-  that the cache process has died could arrive after another message to look
-  up the shortcode that just expired so the internal state has a stale mapping.
-
-  This could be solved by checking `Process.alive?` for the pid and calling
-  `cache_and_update_map` if it was false. `cache_and_update_map` would have to
-  be improved to remove the stale pid from the internal state in this case. The
-  `handle_info(:'DOWN'...` would also need to do the right thing if the pid
-  wasn't in the internal state anymore.
+  the map. To protect against the pid having died but we haven't received the
+  down message yet we check if the process is alive before returning the pid.
   """
   use GenServer
   alias Phlink.Cache
@@ -59,14 +52,27 @@ defmodule Phlink.Cache.Mapper do
   end
 
   def handle_info({:'DOWN', _, _, pid, _}, state) do
-    shortcode_for_pid = Dict.get(state.pids, pid)
-    state = %{state | shortcodes: Dict.delete(state.shortcodes, shortcode_for_pid)}
-    state = %{state | pids: Dict.delete(state.pids, pid)}
+    remove_pid_from_map(pid, state)
     {:noreply, state}
   end
 
   defp cache_pid(shortcode, state) do
-    Dict.get(state.shortcodes, shortcode)
+    case Dict.get(state.shortcodes, shortcode) do
+      nil -> nil
+      pid ->
+        if Process.alive?(pid) do
+          pid
+        else
+          remove_pid_from_map(pid, state)
+          nil
+        end
+    end
+  end
+
+  defp remove_pid_from_map(pid, state) do
+    shortcode_for_pid = Dict.get(state.pids, pid)
+    state = %{state | shortcodes: Dict.delete(state.shortcodes, shortcode_for_pid)}
+    state = %{state | pids: Dict.delete(state.pids, pid)}
   end
 
   defp cache_and_update_map(shortcode, state) do
