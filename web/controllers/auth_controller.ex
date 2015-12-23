@@ -19,7 +19,11 @@ defmodule Phlink.AuthController do
   """
   def callback(conn, %{"code" => code}) do
     github_user = github.get_user(code)
-    %{"name" => name, "id" => github_id, "avatar_url" => avatar_url} = github_user
+    %{
+      "name" => name,
+      "id" => github_id,
+      "avatar_url" => avatar_url
+    } = github_user
 
     user = get_user_from_github_id(github_id)
 

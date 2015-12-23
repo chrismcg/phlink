@@ -59,7 +59,7 @@ defmodule Phlink.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:cowboy, "~> 1.0"},
      {:uuid, "~> 1.1"},
-     {:oauth2, "~> 0.3"},
+     {:oauth2, "~> 0.5"},
      {:dotenv, "~> 2.0.0"},
      {:earmark, "~> 0.1", only: :dev},
      {:ex_doc, "~> 0.11.2", only: :dev},

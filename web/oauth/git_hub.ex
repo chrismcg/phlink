@@ -10,7 +10,7 @@ defmodule GitHub do
   # Public API
 
   def new do
-    OAuth2.new([
+    OAuth2.Client.new([
       strategy: __MODULE__,
       client_id: System.get_env("GITHUB_CLIENT_ID"),
       client_secret: System.get_env("GITHUB_CLIENT_SECRET"),
@@ -38,8 +38,10 @@ defmodule GitHub do
   Fetch the GitHub user details given an authorization code
   """
   def get_user(code) do
-    GitHub.get_token!(code: code)
-    |> OAuth2.AccessToken.get!("/user")
+    %{status_code: 200, body: github_user} =
+      GitHub.get_token!(code: code)
+      |> OAuth2.AccessToken.get!("/user")
+    github_user
   end
 
   # Strategy Callbacks
