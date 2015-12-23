@@ -29,11 +29,11 @@ defmodule Phlink.Cache.Mapper do
   def handle_call({:get_url, shortcode}, _from, state) do
     case cache_pid(shortcode, state) do
       # not cached so cache
-      nil ->
+      {:miss, state} ->
         {_pid, url, state} = cache_and_update_map(shortcode, state)
         {:reply, url, state}
       # already cached so get url from cache process and return
-      pid ->
+      {:ok, pid} ->
         url = Cache.UrlCache.url(pid)
         {:reply, url, state}
     end
@@ -42,11 +42,11 @@ defmodule Phlink.Cache.Mapper do
   def handle_call({:warm, shortcode}, _from, state) do
     case cache_pid(shortcode, state) do
       # not cached so cache
-      nil ->
+      {:miss, state} ->
         {pid, _url, state} = cache_and_update_map(shortcode, state)
         {:reply, pid, state}
       # already cached so just reply with the pid
-      pid ->
+      {:ok, pid} ->
         {:reply, pid, state}
     end
   end
@@ -58,13 +58,13 @@ defmodule Phlink.Cache.Mapper do
 
   defp cache_pid(shortcode, state) do
     case Dict.get(state.shortcodes, shortcode) do
-      nil -> nil
+      nil -> {:miss, state}
       pid ->
         if Process.alive?(pid) do
-          pid
+          {:ok, pid}
         else
-          remove_pid_from_map(pid, state)
-          nil
+          state = remove_pid_from_map(pid, state)
+          {:miss, state}
         end
     end
   end
