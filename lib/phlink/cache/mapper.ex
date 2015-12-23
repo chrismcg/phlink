@@ -51,7 +51,7 @@ defmodule Phlink.Cache.Mapper do
           {pid, url, state}
         else
           state = remove_pid_from_map(pid, state)
-          {pid, url, state} = cache_and_update_map(shortcode, state)
+          cache_and_update_map(shortcode, state)
         end
     end
   end
@@ -59,7 +59,7 @@ defmodule Phlink.Cache.Mapper do
   defp remove_pid_from_map(pid, state) do
     shortcode_for_pid = Dict.get(state.pids, pid)
     state = %{state | shortcodes: Dict.delete(state.shortcodes, shortcode_for_pid)}
-    state = %{state | pids: Dict.delete(state.pids, pid)}
+    %{state | pids: Dict.delete(state.pids, pid)}
   end
 
   defp cache_and_update_map(shortcode, state) do
