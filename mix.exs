@@ -10,6 +10,11 @@ defmodule Phlink.Mixfile do
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      test_coverage: [tool: ExCoveralls],
+     preferred_cli_env: [
+       "coveralls": :test,
+       "coveralls.details": :test,
+       "coveralls.post": :test
+     ],
      name: "phl.ink",
      source_url: "https://github.com/chrismcg/phlink",
      homepage_url: "http://phl.ink",
@@ -59,7 +64,7 @@ defmodule Phlink.Mixfile do
      {:earmark, "~> 0.1", only: :dev},
      {:ex_doc, "~> 0.11.2", only: :dev},
      {:websocket_client, git: "https://github.com/jeremyong/websocket_client.git", only: :test},
-     {:excoveralls, "~> 0.3.11", only: :test}
+     {:excoveralls, "~> 0.4", only: :test}
    ]
   end
 end
