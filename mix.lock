@@ -4,7 +4,7 @@
   "dotenv": {:hex, :dotenv, "2.0.0"},
   "earmark": {:hex, :earmark, "0.1.19"},
   "ecto": {:hex, :ecto, "1.0.3"},
-  "ex_doc": {:hex, :ex_doc, "0.10.0"},
+  "ex_doc": {:hex, :ex_doc, "0.11.2"},
   "excoveralls": {:hex, :excoveralls, "0.3.11"},
   "exjsx": {:hex, :exjsx, "3.2.0"},
   "fs": {:hex, :fs, "0.9.2"},

@@ -57,7 +57,7 @@ defmodule Phlink.Mixfile do
      {:oauth2, "~> 0.3"},
      {:dotenv, "~> 2.0.0"},
      {:earmark, "~> 0.1", only: :dev},
-     {:ex_doc, "~> 0.10.0", only: :dev},
+     {:ex_doc, "~> 0.11.2", only: :dev},
      {:websocket_client, git: "https://github.com/jeremyong/websocket_client.git", only: :test},
      {:excoveralls, "~> 0.3.11", only: :test}
    ]
