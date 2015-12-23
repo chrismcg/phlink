@@ -44,7 +44,7 @@ defmodule Phlink.Cache.Mapper do
   defp get_from_cache(shortcode, state) do
     case Dict.get(state.shortcodes, shortcode) do
       nil ->
-        {pid, url, state} = cache_and_update_map(shortcode, state)
+        cache_and_update_map(shortcode, state)
       pid ->
         if Process.alive?(pid) do
           url = Cache.UrlCache.url(pid)
