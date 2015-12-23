@@ -40,6 +40,6 @@ defmodule Phlink.ConnCase do
       Ecto.Adapters.SQL.restart_test_transaction(Phlink.Repo, [])
     end
 
-    :ok
+    {:ok, conn: Phoenix.ConnTest.conn()}
   end
 end
