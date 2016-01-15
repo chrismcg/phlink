@@ -17,8 +17,10 @@ defmodule Phlink.ModelCase do
   using do
     quote do
       alias Phlink.Repo
-      import Ecto.Model
-      import Ecto.Query, only: [from: 2]
+
+      import Ecto
+      import Ecto.Changeset
+      import Ecto.Query, only: [from: 1, from: 2]
       import Phlink.ModelCase
     end
   end
