@@ -13,10 +13,10 @@ defmodule Phlink.Cache.Mapper do
   use GenServer
   alias Phlink.Cache
   alias Phlink.Repo
-  import Ecto.Query, only: [from: 1, from: 2]
+  import Ecto.Query
   alias Phlink.Link
 
-  defstruct shortcodes: HashDict.new, pids: HashDict.new
+  defstruct shortcodes: %{}, pids: %{}
 
   def start_link do
     GenServer.start_link(__MODULE__, [], name: __MODULE__)
@@ -42,7 +42,7 @@ defmodule Phlink.Cache.Mapper do
   end
 
   defp get_from_cache(shortcode, state) do
-    case Dict.get(state.shortcodes, shortcode) do
+    case Map.get(state.shortcodes, shortcode) do
       nil ->
         cache_and_update_map(shortcode, state)
       pid ->
@@ -57,15 +57,15 @@ defmodule Phlink.Cache.Mapper do
   end
 
   defp remove_pid_from_map(pid, state) do
-    shortcode_for_pid = Dict.get(state.pids, pid)
-    state = %{state | shortcodes: Dict.delete(state.shortcodes, shortcode_for_pid)}
-    %{state | pids: Dict.delete(state.pids, pid)}
+    shortcode_for_pid = Map.get(state.pids, pid)
+    state = %{state | shortcodes: Map.delete(state.shortcodes, shortcode_for_pid)}
+    %{state | pids: Map.delete(state.pids, pid)}
   end
 
   defp cache_and_update_map(shortcode, state) do
     {pid, url} = get_and_cache(shortcode)
-    state = %{state | shortcodes: Dict.put(state.shortcodes, shortcode, pid)}
-    state = %{state | pids: Dict.put(state.pids, pid, shortcode)}
+    state = %{state | shortcodes: Map.put(state.shortcodes, shortcode, pid)}
+    state = %{state | pids: Map.put(state.pids, pid, shortcode)}
     {pid, url, state}
   end
 
@@ -78,7 +78,7 @@ defmodule Phlink.Cache.Mapper do
         { pid, link.url }
     end
   end
- 
+
   defp link_from_shortcode(shortcode) do
     Repo.one(from l in Link, where: l.shortcode == ^shortcode)
   end

@@ -4,7 +4,7 @@ defmodule Phlink.GitHub.Test do
   end
 
   def get_user(_code) do
-    github_user
+    github_user()
   end
 
   def github_user do

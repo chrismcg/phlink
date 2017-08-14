@@ -5,7 +5,7 @@
 # Inside the script, you can read and write to any of your
 # repositories directly:
 #
-#     Phlink.Repo.insert!(%Phlink.SomeModel{})
+#     Phlink.Repo.insert!(%Phlink.SomeSchema{})
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
