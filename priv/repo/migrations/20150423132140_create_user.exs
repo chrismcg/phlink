@@ -7,7 +7,7 @@ defmodule Phlink.Repo.Migrations.CreateUser do
       add :github_id, :integer
       add :github_user, :map
 
-      timestamps
+      timestamps()
     end
 
     create index(:users, [:github_id], unique: true)

@@ -6,7 +6,7 @@ defmodule Phlink.Repo.Migrations.CreateLink do
       add :url, :text
       add :shortcode, :string
 
-      timestamps
+      timestamps()
     end
 
     create index(:links, [:url], unique: true)

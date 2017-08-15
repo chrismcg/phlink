@@ -3,7 +3,7 @@ defmodule Phlink.Repo.Migrations.AddAvatarUrlToUsers do
 
   def change do
     alter table(:users) do
-      add :avatar_url
+      add :avatar_url, :string
     end
   end
 end
