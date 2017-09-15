@@ -1,7 +1,7 @@
-defmodule Phlink.UserTest do
+defmodule Phlink.Accounts.UserTest do
   use Phlink.DataCase
 
-  alias Phlink.User
+  alias Phlink.Accounts.User
 
   @valid_attrs %{
     name: "some content",

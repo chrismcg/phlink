@@ -32,7 +32,7 @@ defmodule PhlinkWeb.ConnCase do
 
       # Model aliases
       alias Phlink.Link
-      alias Phlink.User
+      alias Phlink.Accounts.User
     end
   end
 

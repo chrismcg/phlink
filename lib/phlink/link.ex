@@ -11,7 +11,7 @@ defmodule Phlink.Link do
   schema "links" do
     field :url, :string
     field :shortcode, :string
-    belongs_to :user, Phlink.User
+    belongs_to :user, Phlink.Accounts.User
 
     timestamps()
   end
