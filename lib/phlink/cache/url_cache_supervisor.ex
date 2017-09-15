@@ -11,7 +11,7 @@ defmodule Phlink.Cache.UrlCacheSupervisor do
 
   def init([]) do
     children = [
-      worker(Phlink.Cache.UrlCache, [])
+      worker(Phlink.Cache.UrlCache, [], restart: :temporary)
     ]
 
     supervise(children, strategy: :simple_one_for_one)
