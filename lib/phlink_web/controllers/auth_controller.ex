@@ -3,7 +3,7 @@ defmodule PhlinkWeb.AuthController do
   Handle OAuth to GitHub
   """
   use PhlinkWeb, :controller
-  alias Phlink.User
+  alias Phlink.Accounts.User
 
   @doc """
   Take the user to github to authorize phl.ink and login
