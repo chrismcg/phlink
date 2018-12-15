@@ -30,7 +30,7 @@ defmodule PhlinkWeb.LinkControllerTest do
 
     conn = build_conn()
     |> assign(:current_user, %{@current_user | id: user.id})
-    |> post("/shorten", %{"link": %{"url": @model.url}})
+    |> post("/shorten", %{"link" => %{"url" => @model.url}})
 
     assert link_count() == 1
     link = Repo.one!(from l in Link, select: l, preload: [:user])
@@ -44,7 +44,7 @@ defmodule PhlinkWeb.LinkControllerTest do
     link = Repo.insert!(@model)
     assert build_conn()
     |> assign(:current_user, @current_user)
-    |> post("/shorten", %{"link": %{"url": @model.url}})
+    |> post("/shorten", %{"link" => %{"url" => @model.url}})
     |> redirected_to() == "/shorten/#{link.id}"
     assert link_count() == 1
   end
@@ -53,7 +53,7 @@ defmodule PhlinkWeb.LinkControllerTest do
     assert link_count() == 0
     assert build_conn()
     |> assign(:current_user, @current_user)
-    |> post("/shorten", %{"link": %{"url": ""}})
+    |> post("/shorten", %{"link" => %{"url" => ""}})
     |> html_response(200) =~ "Url can&#39;t be blank"
     assert link_count() == 0
   end
@@ -63,7 +63,7 @@ defmodule PhlinkWeb.LinkControllerTest do
     html =
       build_conn()
       |> assign(:current_user, @current_user)
-      |> post("/shorten", %{"link": %{"url": "not a url"}})
+      |> post("/shorten", %{"link" => %{"url" => "not a url"}})
       |> html_response(200)
     assert html =~ "Url is not a url"
     assert link_count() == 0
