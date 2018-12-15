@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    ports:
+      - "4000:4000"
+    volumes:
+      - .:/opt/app
+      - node_modules:/opt/app/assets/node_modules
+    env_file:
+      - .env/development/database
+      - .env/development/web
+
+  database:
+    image: postgres
+    env_file:
+      - .env/development/database
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
+  node_modules:

@@ -8,6 +8,7 @@ defmodule GitHub do
 
   import PhlinkWeb.Router.Helpers
 
+  # TODO: Put the github config in application config so that all happens in one place
   def client do
     OAuth2.Client.new(
       strategy: __MODULE__,
