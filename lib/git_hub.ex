@@ -9,7 +9,7 @@ defmodule GitHub do
   import PhlinkWeb.Router.Helpers
 
   def client do
-    OAuth2.Client.new([
+    OAuth2.Client.new(
       strategy: __MODULE__,
       client_id: System.get_env("GITHUB_CLIENT_ID"),
       client_secret: System.get_env("GITHUB_CLIENT_SECRET"),
@@ -17,7 +17,7 @@ defmodule GitHub do
       site: "https://api.github.com",
       authorize_url: "https://github.com/login/oauth/authorize",
       token_url: "https://github.com/login/oauth/access_token"
-    ])
+    )
   end
 
   @doc """
@@ -38,6 +38,7 @@ defmodule GitHub do
     %{status_code: 200, body: github_user} =
       GitHub.get_token!(code: code)
       |> OAuth2.Client.get!("/user")
+
     github_user
   end
 

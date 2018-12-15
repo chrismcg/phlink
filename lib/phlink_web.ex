@@ -20,9 +20,10 @@ defmodule PhlinkWeb do
   def controller do
     quote do
       use Phoenix.Controller, namespace: PhlinkWeb
+
       import Plug.Conn
-      import PhlinkWeb.Router.Helpers
       import PhlinkWeb.Gettext
+      alias PhlinkWeb.Router.Helpers, as: Routes
 
       # TODO: see if I still need this or can replace with context
       alias Phlink.Repo
@@ -37,18 +38,19 @@ defmodule PhlinkWeb do
 
   def view do
     quote do
-      use Phoenix.View, root: "lib/phlink_web/templates",
-                        namespace: PhlinkWeb
+      use Phoenix.View,
+        root: "lib/phlink_web/templates",
+        namespace: PhlinkWeb
 
       # Import convenience functions from controllers
-      import Phoenix.Controller, only: [get_flash: 2, view_module: 1]
+      import Phoenix.Controller, only: [get_flash: 1, get_flash: 2, view_module: 1]
 
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
 
-      import PhlinkWeb.Router.Helpers
       import PhlinkWeb.ErrorHelpers
       import PhlinkWeb.Gettext
+      alias PhlinkWeb.Router.Helpers, as: Routes
     end
   end
 

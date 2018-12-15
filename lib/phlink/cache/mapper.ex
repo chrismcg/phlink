@@ -36,7 +36,7 @@ defmodule Phlink.Cache.Mapper do
     {:reply, pid, state}
   end
 
-  def handle_info({:'DOWN', _, _, pid, _}, state) do
+  def handle_info({:DOWN, _, _, pid, _}, state) do
     remove_pid_from_map(pid, state)
     {:noreply, state}
   end
@@ -45,6 +45,7 @@ defmodule Phlink.Cache.Mapper do
     case Map.get(state.shortcodes, shortcode) do
       nil ->
         cache_and_update_map(shortcode, state)
+
       pid ->
         if Process.alive?(pid) do
           url = Cache.UrlCache.url(pid)
@@ -71,11 +72,13 @@ defmodule Phlink.Cache.Mapper do
 
   defp get_and_cache(shortcode) do
     case link_from_shortcode(shortcode) do
-      nil -> { nil, nil }
+      nil ->
+        {nil, nil}
+
       link ->
         {:ok, pid} = Cache.UrlCacheSupervisor.start_child(link.url)
         Process.monitor(pid)
-        { pid, link.url }
+        {pid, link.url}
     end
   end
 

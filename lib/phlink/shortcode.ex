@@ -9,7 +9,7 @@ defmodule Phlink.Shortcode do
   """
   def generate(url) do
     UUID.uuid5(:url, url, :hex)
-    |> :erlang.phash2
+    |> :erlang.phash2()
     |> Integer.to_string(16)
   end
 end

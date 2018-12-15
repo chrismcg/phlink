@@ -8,11 +8,12 @@ defmodule Phlink.UserTest do
     github_id: 212,
     avatar_url: "https://avatars.githubusercontent.com/u/212?v=3",
     github_user: %{
-    "login" => "chrismcg",
-    "id" => 212,
-    "avatar_url" => "https://avatars.githubusercontent.com/u/212?v=3",
-    "name" => "Chris McGrath"
-  }}
+      "login" => "chrismcg",
+      "id" => 212,
+      "avatar_url" => "https://avatars.githubusercontent.com/u/212?v=3",
+      "name" => "Chris McGrath"
+    }
+  }
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

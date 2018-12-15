@@ -1,10 +1,13 @@
 defmodule Phlink.Application do
-  use Application
-
   # See https://hexdocs.pm/elixir/Application.html
   # for more information on OTP Applications
+  @moduledoc false
+
+  use Application
+
   def start(_type, _args) do
     import Supervisor.Spec
+    # TODO: Convert to child specs
 
     # Define workers and child supervisors to be supervised
     children = [
@@ -13,7 +16,7 @@ defmodule Phlink.Application do
       # Start the endpoint when the application starts
       supervisor(PhlinkWeb.Endpoint, []),
       # Start the cache
-      supervisor(Phlink.Cache.Supervisor, []),
+      supervisor(Phlink.Cache.Supervisor, [])
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
