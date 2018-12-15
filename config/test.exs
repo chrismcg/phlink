@@ -13,10 +13,10 @@ config :logger, level: :warn
 
 # Configure your database
 config :phlink, Phlink.Repo,
-  username: "postgres",
-  password: "postgres",
+  username: System.get_env("POSTGRES_USER"),
+  password: System.get_env("POSTGRES_PASSWORD"),
   database: "phlink_test",
-  hostname: "localhost",
+  hostname: System.get_env("DATABASE_HOST"),
   pool: Ecto.Adapters.SQL.Sandbox
 
 config :phlink, :github_api, Phlink.GitHub.Test

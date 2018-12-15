@@ -8,6 +8,7 @@ services:
     volumes:
       - .:/opt/app
       - node_modules:/opt/app/assets/node_modules
+      - hex_cache:/root/.hex
     env_file:
       - .env/development/database
       - .env/development/web
@@ -22,3 +23,4 @@ services:
 volumes:
   db_data:
   node_modules:
+  hex_cache:
