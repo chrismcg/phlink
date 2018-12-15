@@ -75,7 +75,7 @@ defmodule PhlinkWeb.LinkControllerTest do
     |> assign(:current_user, @current_user)
     |> get("/shorten/#{link.id}")
     assert html_response(conn, 200) =~ ~r{<a.*?href="http://example.com"}
-    assert html_response(conn, 200) =~ ~r{<a.*?href="http://localhost:4001/#{@expected_shortcode}"}
+    assert html_response(conn, 200) =~ ~r{<a.*?href="http://localhost:4002/#{@expected_shortcode}"}
   end
 
   test "GET /:shortcode redirects to url matching shortcode" do

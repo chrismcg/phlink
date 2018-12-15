@@ -1,7 +1,7 @@
 use Mix.Config
 
 # In this file, we keep production configuration that
-# you'll likely want to automate and keep it away from
+# you'll likely want to automate and keep away from
 # your version control system.
 #
 # You should document the content of this
@@ -13,6 +13,5 @@ config :phlink, PhlinkWeb.Endpoint,
 
 # Configure your database
 config :phlink, Phlink.Repo,
-  adapter: Ecto.Adapters.Postgres,
   pool_size: 18,
   url: {:system, "DATABASE_URL"}

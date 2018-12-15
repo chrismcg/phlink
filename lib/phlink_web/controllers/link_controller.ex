@@ -81,7 +81,8 @@ defmodule PhlinkWeb.LinkController do
         |> fetch_session
         |> fetch_flash
         |> put_status(:not_found)
-        |> render(PhlinkWeb.ErrorView, "404.html")
+        |> put_view(PhlinkWeb.ErrorView)
+        |> render("404.html")
       url ->
         conn
         |> put_status(:moved_permanently)

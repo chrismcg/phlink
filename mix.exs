@@ -1,12 +1,12 @@
-defmodule Phlink.Mixfile do
+defmodule Phlink.MixProject do
   use Mix.Project
 
   def project do
     [
       app: :phlink,
       version: "0.0.1",
-      elixir: "~> 1.4",
-      elixirc_paths: elixirc_paths(Mix.env),
+      elixir: "~> 1.5",
+      elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers,
       start_permanent: Mix.env == :prod,
       test_coverage: [tool: ExCoveralls],
@@ -35,7 +35,7 @@ defmodule Phlink.Mixfile do
 
   # Specifies which paths to compile per environment.
   defp elixirc_paths(:test), do: ["lib", "test/support"]
-  defp elixirc_paths(_),     do: ["lib"]
+  defp elixirc_paths(_), do: ["lib"]
 
   # Specifies your project dependencies.
   #
