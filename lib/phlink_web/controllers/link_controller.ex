@@ -12,7 +12,7 @@ defmodule PhlinkWeb.LinkController do
   """
   def new(conn, _params) do
     changeset = Link.new()
-    render conn, "new.html", changeset: changeset
+    render(conn, "new.html", changeset: changeset)
   end
 
   @doc """
@@ -30,10 +30,11 @@ defmodule PhlinkWeb.LinkController do
   """
   def create(conn, %{"link" => link_params}) do
     # try to find an existing url
-    link = case link_params["url"] do
-      nil -> nil
-      url -> link_from_url(url)
-    end
+    link =
+      case link_params["url"] do
+        nil -> nil
+        url -> link_from_url(url)
+      end
 
     do_create(conn, link, link_params)
   end
@@ -42,6 +43,7 @@ defmodule PhlinkWeb.LinkController do
   defp do_create(conn, nil, link_params) do
     link_params = Map.merge(link_params, %{"user_id" => conn.assigns[:current_user].id})
     changeset = Link.changeset(%Link{}, link_params)
+
     if changeset.valid? do
       link = Repo.insert!(changeset)
       Cache.warm(link.shortcode)
@@ -49,12 +51,14 @@ defmodule PhlinkWeb.LinkController do
       conn
       |> redirect(to: Routes.link_path(conn, :show, link.id))
     else
-      render conn, "new.html", changeset: changeset
+      render(conn, "new.html", changeset: changeset)
     end
   end
+
   # when the url has been shortened before just show the existing record
   defp do_create(conn, link, _link_params) do
     Cache.warm(link.shortcode)
+
     conn
     |> redirect(to: Routes.link_path(conn, :show, link.id))
   end
@@ -64,7 +68,7 @@ defmodule PhlinkWeb.LinkController do
   """
   def show(conn, %{"id" => id}) do
     link = Repo.get(Link, id)
-    render conn, "show.html", link: link
+    render(conn, "show.html", link: link)
   end
 
   @doc """
@@ -83,6 +87,7 @@ defmodule PhlinkWeb.LinkController do
         |> put_status(:not_found)
         |> put_view(PhlinkWeb.ErrorView)
         |> render("404.html")
+
       url ->
         conn
         |> put_status(:moved_permanently)

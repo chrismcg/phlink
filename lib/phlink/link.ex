@@ -37,22 +37,24 @@ defmodule Phlink.Link do
       model
       |> cast(params, @required_fields)
       |> validate_required(@required_fields)
+
     changeset =
       case get_field(changeset, :url) do
         nil -> changeset
         url -> change(changeset, %{shortcode: Shortcode.generate(url)})
       end
+
     changeset
     |> unique_constraint(:shortcode)
     |> validate_url(:url)
   end
 
   defp validate_url(changeset, field) do
-    validate_change changeset, field, fn(field, url) ->
+    validate_change(changeset, field, fn field, url ->
       case :http_uri.parse(String.to_charlist(url)) do
-        { :ok, _ } -> []
-        { :error, _ } -> [{field, "is not a url"}]
+        {:ok, _} -> []
+        {:error, _} -> [{field, "is not a url"}]
       end
-    end
+    end)
   end
 end

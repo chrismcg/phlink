@@ -58,7 +58,9 @@ defmodule PhlinkWeb.Router do
         |> put_flash(:error, "Please login")
         |> redirect(to: "/")
         |> halt()
-      _ -> conn
+
+      _ ->
+        conn
     end
   end
 end

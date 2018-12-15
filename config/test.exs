@@ -19,4 +19,4 @@ config :phlink, Phlink.Repo,
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
 
- config :phlink, :github_api, Phlink.GitHub.Test
+config :phlink, :github_api, Phlink.GitHub.Test

@@ -16,7 +16,7 @@ defmodule Phlink.Application do
       # Start the endpoint when the application starts
       supervisor(PhlinkWeb.Endpoint, []),
       # Start the cache
-      supervisor(Phlink.Cache.Supervisor, []),
+      supervisor(Phlink.Cache.Supervisor, [])
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
