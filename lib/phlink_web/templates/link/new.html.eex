@@ -1,5 +1,1 @@
-<div class="row">
-  <div class="col-lg-12">
-    <%= render "form.html", changeset: @changeset, action: Routes.link_path(@conn, :create) %>
-  </div>
-</div>
+<%= render "form.html", changeset: @changeset, action: Routes.link_path(@conn, :create) %>

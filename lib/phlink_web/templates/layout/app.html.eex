@@ -12,38 +12,27 @@
   </head>
 
   <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="/">phl.ink</a>
-        </div>
-        <div id="navbar">
-          <ul class="nav navbar-nav pull-right">
-            <%= if assigns[:current_user] do %>
-              <p class="navbar-text">
-                Hi <%= @current_user.name %>
-                <img src="<%= @current_user.avatar_url %>" height="20" width="20" class="img-circle"/>
-              </p>
-            <% else %>
-              <li class="active">
-                <a href="<%= Routes.auth_path @conn, :index %>">
-                  <i class="fa fa-github"></i>
-                  Sign in with GitHub
-                </a>
-              </li>
-            <% end %>
-          </ul>
-        </div>
-      </div>
-    </nav>
-
     <div class="container">
+      <nav class="navbar navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand mb-0 h1" href="/">phl.ink</a>
+
+        <%= if assigns[:current_user] do %>
+          <div>
+            <span class="navbar-text">
+              Hi <%= @current_user.name %>
+            </span>
+            <img src="<%= @current_user.avatar_url %>" height="20" width="20" class="rounded"/>
+          </div>
+        <% else %>
+          <form class="form-inline" action="<%= Routes.auth_path(@conn, :index) %>">
+            <button class="btn btn-outline-light">
+              <i class="fab fa-github"></i>
+              Sign in with GitHub
+            </button>
+          </form>
+        <% end %>
+      </nav>
+
       <%= render @view_module, @view_template, assigns %>
 
       <div class="footer text-center">

@@ -10,8 +10,12 @@
     </div>
   <% end %>
 
-  <div class="form-group">
-    <%= text_input f, :url, class: "form-control", placeholder: "URL" %>
+  <div class="form-row">
+    <div class="col">
+      <%= text_input f, :url, class: "form-control", placeholder: "URL" %>
+    </div>
+    <div class="col-auto">
+      <%= submit "Shorten!", class: "btn btn-primary btn-large" %>
+    </div>
   </div>
-  <%= submit "Shorten!", class: "btn btn-primary btn-large" %>
 <% end %>
