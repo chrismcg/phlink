@@ -8,7 +8,7 @@
     <meta name="author" content="">
 
     <title>phl.ink</title>
-    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+    <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>">
   </head>
 
   <body>
@@ -32,7 +32,7 @@
               </p>
             <% else %>
               <li class="active">
-                <a href="<%= auth_path @conn, :index %>">
+                <a href="<%= Routes.auth_path @conn, :index %>">
                   <i class="fa fa-github"></i>
                   Sign in with GitHub
                 </a>
@@ -51,6 +51,6 @@
       </div>
     </div>
 
-    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+    <script src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>

@@ -1,1 +1,1 @@
-<p class="lead text-center"><a href="<%= auth_path(@conn, :index) %>">Sign in with github</a> to get started</p>
+<p class="lead text-center"><a href="<%= Routes.auth_path(@conn, :index) %>">Sign in with github</a> to get started</p>

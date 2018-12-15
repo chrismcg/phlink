@@ -47,7 +47,7 @@ defmodule PhlinkWeb.LinkController do
       Cache.warm(link.shortcode)
 
       conn
-      |> redirect(to: link_path(conn, :show, link.id))
+      |> redirect(to: Routes.link_path(conn, :show, link.id))
     else
       render conn, "new.html", changeset: changeset
     end
@@ -56,7 +56,7 @@ defmodule PhlinkWeb.LinkController do
   defp do_create(conn, link, _link_params) do
     Cache.warm(link.shortcode)
     conn
-    |> redirect(to: link_path(conn, :show, link.id))
+    |> redirect(to: Routes.link_path(conn, :show, link.id))
   end
 
   @doc """

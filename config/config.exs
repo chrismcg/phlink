@@ -17,6 +17,8 @@ config :phlink, PhlinkWeb.Endpoint,
   pubsub: [name: Phlink.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
+config :phoenix, :json_library, Jason
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

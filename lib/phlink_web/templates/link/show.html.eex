@@ -1,6 +1,6 @@
 <div class="jumbotron">
   <h1 class="text-center">
-    <a href="<%= link_url(@conn, :unshorten, @link.shortcode) %>"><%= link_url(@conn, :unshorten, @link.shortcode) %></a>
+    <a href="<%= Routes.link_url(@conn, :unshorten, @link.shortcode) %>"><%= Routes.link_url(@conn, :unshorten, @link.shortcode) %></a>
   </h1>
   <p class="lead text-center">
     <a href="<%= @link.url %>"><%= @link.url %></a>

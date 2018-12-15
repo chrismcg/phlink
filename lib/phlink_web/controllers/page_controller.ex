@@ -12,7 +12,7 @@ defmodule PhlinkWeb.PageController do
   def index(conn, _params) do
     case conn.assigns[:current_user] do
       nil -> render(conn, "index.html")
-      _ -> redirect(conn, to: link_path(conn, :new))
+      _ -> redirect(conn, to: Routes.link_path(conn, :new))
     end
   end
 end

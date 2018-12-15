@@ -21,7 +21,7 @@ defmodule PhlinkWeb do
     quote do
       use Phoenix.Controller, namespace: PhlinkWeb
       import Plug.Conn
-      import PhlinkWeb.Router.Helpers
+      alias PhlinkWeb.Router.Helpers, as: Routes
       import PhlinkWeb.Gettext
 
       # TODO: see if I still need this or can replace with context
@@ -46,7 +46,7 @@ defmodule PhlinkWeb do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
 
-      import PhlinkWeb.Router.Helpers
+      alias PhlinkWeb.Router.Helpers, as: Routes
       import PhlinkWeb.ErrorHelpers
       import PhlinkWeb.Gettext
     end

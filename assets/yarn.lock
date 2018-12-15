@@ -2084,10 +2084,10 @@ performance-now@^0.2.0:
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-0.2.0.tgz#33ef30c5c77d4ea21c5a53869d91b56d8f2555e5"
 
 "phoenix@file:../deps/phoenix":
-  version "1.1.2"
+  version "1.4.0"
 
 "phoenix_html@file:../deps/phoenix_html":
-  version "2.3.1"
+  version "2.13.0"
 
 preserve@^0.2.0:
   version "0.2.0"
