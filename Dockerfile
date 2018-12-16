@@ -5,9 +5,19 @@ MAINTAINER Chris McGrath <chris@chrismcg.com>
 # is updated with the current date. It will force refresh of all
 # of the base images and things like `apt-get update` won't be using
 # old cached versions when the Dockerfile is built.
-ENV REFRESHED_AT=2018-12-16 \
+ENV REFRESHED_AT=2018-12-16.2 \
+  HOME=/opt/app \
+  UID=1000 \
+  GID=1000 \
   # Set this so that CTRL+G works properly
   TERM=xterm
+
+# create default user with same UID/GID as on host
+# so can create files without problems
+RUN \
+  mkdir -p "${HOME}" && \
+  useradd -d /opt/app -u "${UID}" -G root -M default && \
+  chown -R "${UID}:${GID}" "${HOME}"
 
 RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends \
   apt-transport-https
@@ -24,17 +34,19 @@ RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends \
   yarn \
   inotify-tools
 
+USER default
+
 RUN mix local.hex --force && mix local.rebar --force
 
-COPY mix.* /opt/app/
-WORKDIR /opt/app
+COPY --chown=default:default mix.* "${HOME}/"
+WORKDIR "${HOME}"
 RUN mix deps.get && mix deps.compile
 
-COPY assets/package.json assets/yarn.lock /opt/app/assets/
-WORKDIR /opt/app/assets
-RUN yarn install
+COPY --chown=default:default assets/package.json assets/yarn.lock "${HOME}/assets/"
+WORKDIR "${HOME}/assets"
+RUN ls -la "${HOME}/assets" && yarn install
 
-COPY . /opt/app/
+COPY --chown=default:default . "${HOME}"
 
-WORKDIR /opt/app
-CMD ["iex", "-S", "mix", "phx.server"]
+WORKDIR "${HOME}"
+CMD ["mix", "phx.server"]
