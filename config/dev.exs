@@ -7,7 +7,8 @@ use Mix.Config
 # watchers to your application. For example, we use it
 # with webpack to recompile .js and .css sources.
 config :phlink, PhlinkWeb.Endpoint,
-  http: [port: 4000],
+  http: [port: System.get_env("PORT")],
+  url: [host: System.get_env("HOST"), port: System.get_env("PORT")],
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
@@ -68,10 +69,10 @@ config :phoenix, :plug_init_mode, :runtime
 
 # Configure your database
 config :phlink, Phlink.Repo,
-  username: "postgres",
-  password: "postgres",
-  database: "phlink_dev",
-  hostname: "localhost",
+  username: System.get_env("POSTGRES_USER"),
+  password: System.get_env("POSTGRES_PASSWORD"),
+  database: System.get_env("POSTGRES_DB"),
+  hostname: System.get_env("DATABASE_HOST"),
   pool_size: 10
 
 config :phlink, :github_api, GitHub
