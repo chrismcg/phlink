@@ -16,3 +16,12 @@ build: ## Build the Docker image
     -f Dockerfile \
 		-t $(APP_NAME):$(APP_VSN)-$(BUILD) \
 		-t $(APP_NAME):latest ..
+
+up: ## Bring up the production docker-compose environment
+	docker-compose -p $(APP_NAME)_prod up -d
+
+down: ## Stop the production docker-compose environment
+	docker-compose -p $(APP_NAME)_prod down
+
+logs: ## Tail the production docker-compose logs
+	docker-compose -p $(APP_NAME)_prod logs -f
