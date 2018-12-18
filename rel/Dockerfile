@@ -11,15 +11,12 @@ FROM elixir:1.7.4-alpine AS builder
 ARG APP_NAME
 # The version of the application we are building (required)
 ARG APP_VSN
-# The cookie to use (required)
-ARG COOKIE
 # The environment to build with
 ARG MIX_ENV=prod
 
 ENV APP_NAME=${APP_NAME} \
     APP_VSN=${APP_VSN} \
-    MIX_ENV=${MIX_ENV} \
-    COOKIE=${COOKIE}
+    MIX_ENV=${MIX_ENV}
 
 # By convention, /opt is typically used for applications
 WORKDIR /opt/app
