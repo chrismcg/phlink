@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  web:
+    image: phlink:latest
+    ports:
+      - "4000:4000"
+    env_file:
+      - ../.env/prod/database
+      - ../.env/prod/web
+    depends_on:
+      - database
+
+  database:
+    image: postgres
+    env_file:
+      - ../.env/prod/database
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
