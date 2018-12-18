@@ -6,7 +6,7 @@ MAINTAINER Chris McGrath <chris@chrismcg.com>
 # of the base images and things like `apt-get update` won't be using
 # old cached versions when the Dockerfile is built.
 ENV REFRESHED_AT=2018-12-16.2 \
-  HOME=/opt/app \
+  APP_ROOT=/opt/app \
   UID=1000 \
   GID=1000 \
   # Set this so that CTRL+G works properly
@@ -15,9 +15,9 @@ ENV REFRESHED_AT=2018-12-16.2 \
 # create default user with same UID/GID as on host
 # so can create files without problems
 RUN \
-  mkdir -p "${HOME}" && \
-  useradd -d /opt/app -u "${UID}" -G root -M default && \
-  chown -R "${UID}:${GID}" "${HOME}"
+  useradd -u "${UID}" -G root -m default && \
+  mkdir -p "${APP_ROOT}" && \
+  chown -R "${UID}:${GID}" "${APP_ROOT}"
 
 RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends \
   apt-transport-https
@@ -38,15 +38,15 @@ USER default
 
 RUN mix local.hex --force && mix local.rebar --force
 
-COPY --chown=default:default mix.* "${HOME}/"
-WORKDIR "${HOME}"
+COPY --chown=default:default mix.* "${APP_ROOT}/"
+WORKDIR "${APP_ROOT}"
 RUN mix deps.get && mix deps.compile
 
-COPY --chown=default:default assets/package.json assets/yarn.lock "${HOME}/assets/"
-WORKDIR "${HOME}/assets"
-RUN ls -la "${HOME}/assets" && yarn install
+COPY --chown=default:default assets/package.json assets/yarn.lock "${APP_ROOT}/assets/"
+WORKDIR "${APP_ROOT}/assets"
+RUN ls -la "${APP_ROOT}/assets" && yarn install
 
-COPY --chown=default:default . "${HOME}"
+COPY --chown=default:default . "${APP_ROOT}"
 
-WORKDIR "${HOME}"
+WORKDIR "${APP_ROOT}"
 CMD ["mix", "phx.server"]
