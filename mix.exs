@@ -58,7 +58,8 @@ defmodule Phlink.MixProject do
       {:oauth2, "~> 0.5"},
       {:earmark, "~> 1.2", only: :dev},
       {:ex_doc, "~> 0.16", only: :dev},
-      {:excoveralls, "~> 0.7", only: :test}
+      {:excoveralls, "~> 0.7", only: :test},
+      {:distillery, "~> 2.0"}
     ]
   end
 
