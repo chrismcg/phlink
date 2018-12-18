@@ -25,3 +25,6 @@ down: ## Stop the production docker-compose environment
 
 logs: ## Tail the production docker-compose logs
 	docker-compose -p $(APP_NAME)_prod logs -f
+
+console: ## Attach a remote console to the docker-compose prod environment
+	docker-compose -p $(APP_NAME)_prod exec web bin/$(APP_NAME) remote_console
