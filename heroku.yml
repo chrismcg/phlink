@@ -1,0 +1,12 @@
+build:
+  docker:
+    web:
+      dockerfile: Dockerfile.web
+      target: production
+  config:
+    APP_NAME: phlink
+    APP_VSN: 0.0.1
+    MIX_ENV: prod
+
+run:
+  web: bin/phlink foreground
