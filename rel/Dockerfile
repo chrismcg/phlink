@@ -25,6 +25,8 @@ WORKDIR /opt/app
 RUN apk update && \
   apk upgrade --no-cache && \
   apk add --no-cache \
+    curl \
+    openssl \
     nodejs \
     yarn \
     git \
@@ -59,7 +61,7 @@ RUN \
   rm ${APP_NAME}.tar.gz
 
 # From this line onwards, we're in a new image, which will be the image used in production
-FROM alpine:${ALPINE_VERSION}
+FROM alpine:${ALPINE_VERSION} AS production
 
 # The name of your application/release (required)
 ARG APP_NAME
@@ -76,4 +78,4 @@ WORKDIR /opt/app
 
 COPY --from=builder /opt/built .
 
-CMD bin/${APP_NAME} foreground
+CMD bin/phlink foreground
