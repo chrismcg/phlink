@@ -7,8 +7,8 @@ use Mix.Config
 # watchers to your application. For example, we use it
 # with webpack to recompile .js and .css sources.
 config :phlink, PhlinkWeb.Endpoint,
-  http: [port: System.get_env("PORT")],
-  url: [host: System.get_env("HOST"), port: System.get_env("PORT")],
+  http: [port: String.to_integer(System.get_env("PORT") || "4000")],
+  url: [host: System.get_env("HOST"), port: String.to_integer(System.get_env("PORT") || "4000")],
   debug_errors: true,
   code_reloader: true,
   check_origin: false,

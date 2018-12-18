@@ -31,13 +31,20 @@ environment :dev do
   # dev mode.
   set dev_mode: true
   set include_erts: false
-  set cookie: :"Z$i?a?x;*D0{Y{C]?8_|xlqN0P>&0;Q4d0)AnnZ%!4J(OCT.=|U5q|3hOFDVBW&k"
+  set cookie: :phlink_dev
 end
 
 environment :prod do
+  set config_providers: [
+    {Mix.Releases.Config.Providers.Elixir, ["${RELEASE_ROOT_DIR}/etc/config.exs"]}
+  ]
+  set overlays: [
+    {:copy, "rel/config/prod.exs", "etc/config.exs"}
+  ]
+
   set include_erts: true
   set include_src: false
-  set cookie: :"Tg.t*,jJ<Mk5T[CsJgd7x>3W7L:M4^MHp)]rOI7.0`^Rj]fd(TCJ~e:E8TI99=Tt"
+  set cookie: :crypto.hash(:sha256, System.get_env("COOKIE") || "monster") |> Base.encode16() |> String.to_atom()
   set vm_args: "rel/vm.args"
 end
 
