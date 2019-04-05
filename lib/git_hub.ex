@@ -53,6 +53,7 @@ defmodule GitHub do
     client
     |> put_param(:client_secret, client.client_secret)
     |> put_header("Accept", "application/json")
+    |> OAuth2.Client.put_serializer("application/json", Jason)
     |> OAuth2.Strategy.AuthCode.get_token(params, headers)
   end
 end
