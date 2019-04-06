@@ -1,11 +1,11 @@
-FROM elixir:1.7.4
+FROM elixir:1.8.1
 MAINTAINER Chris McGrath <chris@chrismcg.com>
 
 # Important!  Update this no-op ENV variable when this Dockerfile
 # is updated with the current date. It will force refresh of all
 # of the base images and things like `apt-get update` won't be using
 # old cached versions when the Dockerfile is built.
-ENV REFRESHED_AT=2018-12-16.2 \
+ENV REFRESHED_AT=2019-04-06.1 \
   APP_ROOT=/opt/app \
   UID=1000 \
   GID=1000 \
