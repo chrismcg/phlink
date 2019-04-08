@@ -11,7 +11,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
-    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-env": "^7.4.3",
     "babel-loader": "^8.0.5",
     "bootstrap": "4.2.1",
     "copy-webpack-plugin": "^4.5.0",
