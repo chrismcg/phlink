@@ -14,7 +14,7 @@ services:
       - .env/development/web
 
   database:
-    image: postgres
+    image: postgres:11.2-alpine
     env_file:
       - .env/development/database
     volumes:
