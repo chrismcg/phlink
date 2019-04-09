@@ -53,7 +53,7 @@ defmodule Phlink.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:plug, "~> 1.7"},
       {:jason, "~> 1.0"},
-      {:poison, "~> 3.0"},
+      {:poison, "~> 4.0"},
       {:uuid, "~> 1.1"},
       {:oauth2, "~> 1.0"},
       {:earmark, "~> 1.2", only: :dev},
