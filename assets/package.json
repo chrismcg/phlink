@@ -15,7 +15,7 @@
     "@fortawesome/fontawesome-free": "^5.8.1",
     "autoprefixer": "^9.5.1",
     "babel-loader": "^8.0.5",
-    "bootstrap": "4.2.1",
+    "bootstrap": "4.3.1",
     "copy-webpack-plugin": "^5.0.2",
     "css-loader": "^2.1.1",
     "file-loader": "^3.0.1",
