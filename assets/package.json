@@ -14,7 +14,7 @@
     "@babel/preset-env": "^7.4.4",
     "@fortawesome/fontawesome-free": "^5.8.1",
     "autoprefixer": "^9.5.1",
-    "babel-loader": "^8.0.5",
+    "babel-loader": "^8.0.6",
     "bootstrap": "4.3.1",
     "copy-webpack-plugin": "^5.0.3",
     "css-loader": "^2.1.1",
