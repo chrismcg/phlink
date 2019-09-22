@@ -16,7 +16,7 @@ config :phlink, Phlink.Repo,
   username: "postgres",
   password: "postgres",
   database: "phlink_test",
-  hostname: "localhost",
+  hostname: System.get_env("DB_HOST", "localhost"),
   pool: Ecto.Adapters.SQL.Sandbox
 
 config :phlink, :github_api, Phlink.GitHub.Test
