@@ -55,7 +55,7 @@ defmodule Phlink.MixProject do
       {:jason, "~> 1.0"},
       {:poison, "~> 4.0"},
       {:uuid, "~> 1.1"},
-      {:oauth2, "~> 1.0"},
+      {:oauth2, "~> 2.0"},
       {:earmark, "~> 1.2", only: :dev},
       {:ex_doc, "~> 0.16", only: :dev},
       {:excoveralls, "~> 0.7", only: :test},
