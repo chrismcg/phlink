@@ -19,7 +19,8 @@ defmodule Phlink.MixProject do
       source_url: "https://github.com/chrismcg/phlink",
       homepage_url: "http://phl.ink",
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      releases: releases()
     ]
   end
 
@@ -74,6 +75,14 @@ defmodule Phlink.MixProject do
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate", "test"]
+    ]
+  end
+
+  defp releases do
+    [
+      phlink: [
+        include_executables_for: [:unix]
+      ]
     ]
   end
 end
