@@ -12,7 +12,7 @@
   "devDependencies": {
     "@babel/core": "^7.7.4",
     "@babel/preset-env": "^7.7.4",
-    "@fortawesome/fontawesome-free": "^5.11.2",
+    "@fortawesome/fontawesome-free": "^5.12.0",
     "autoprefixer": "^9.7.3",
     "babel-loader": "^8.0.6",
     "bootstrap": "4.3.1",
