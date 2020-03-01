@@ -10,7 +10,7 @@
     "phoenix_html": "file:../deps/phoenix_html"
   },
   "devDependencies": {
-    "@babel/core": "^7.8.4",
+    "@babel/core": "^7.8.6",
     "@babel/preset-env": "^7.8.4",
     "@fortawesome/fontawesome-free": "^5.12.1",
     "autoprefixer": "^9.7.4",
