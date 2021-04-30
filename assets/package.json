@@ -16,7 +16,7 @@
     "autoprefixer": "^9.8.6",
     "babel-loader": "^8.1.0",
     "bootstrap": "4.5.0",
-    "copy-webpack-plugin": "^6.2.1",
+    "copy-webpack-plugin": "^6.4.1",
     "css-loader": "^5.0.0",
     "file-loader": "^6.2.0",
     "jquery": "^3.5.1",
