@@ -22,7 +22,7 @@
     "jquery": "^3.5.1",
     "mini-css-extract-plugin": "^1.2.1",
     "node-sass": "4.14.1",
-    "optimize-css-assets-webpack-plugin": "^5.0.4",
+    "optimize-css-assets-webpack-plugin": "^6.0.0",
     "popper.js": "^1.16.0",
     "postcss-loader": "^3.0.0",
     "sass-loader": "^10.0.4",
